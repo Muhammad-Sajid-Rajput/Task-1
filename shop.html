@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Catalog — SUPPLY</title>
+  <!-- Google Fonts: Sora + DM Serif Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Sora', 'sans-serif'],
+            serif: ['DM Serif Display', 'serif'],
+          },
+          colors: {
+            darkbg: '#0a0a0f',
+            cardbg: '#12121e',
+            accent: '#7c3aed',
+            highlight: '#a3e635',
+            textlight: '#f8fafc',
+            muted: '#94a3b8'
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-darkbg text-textlight antialiased flex flex-col min-h-screen">
+
+  <!-- Sticky Navbar -->
+  <header class="sticky top-0 z-50 bg-darkbg/80 backdrop-blur-md border-b border-accent/10">
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <span class="text-2xl font-bold tracking-wider text-textlight">
+          SUPPLY <span class="text-highlight">✦</span>
+        </span>
+        <span class="hidden lg:inline-block h-4 w-[1px] bg-accent/30"></span>
+        <span class="hidden lg:inline-block text-[9px] uppercase tracking-[0.25em] text-muted group-hover:text-highlight transition-colors mt-0.5">
+          Curated Premium Gear.
+        </span>
+      </a>
+      
+      <!-- Nav Links -->
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-muted">
+        <a href="index.html" class="hover:text-textlight transition-colors">Home</a>
+        <a href="shop.html" class="text-highlight transition-colors">Shop</a>
+        <a href="cart.html" class="hover:text-textlight transition-colors flex items-center gap-2">
+          Cart
+          <span id="cart-badge-count" class="hidden bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full items-center justify-center border border-accent/20">0</span>
+        </a>
+      </div>
+
+      <!-- Action Button -->
+      <div class="flex items-center gap-4">
+        <a href="shop.html" class="nexus-btn-primary hidden md:inline-flex text-xs">
+          Shop Now
+        </a>
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden text-textlight hover:text-highlight focus:outline-none" aria-label="Toggle menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-cardbg border-b border-accent/15 py-4 px-6 flex flex-col gap-4 text-sm font-medium">
+      <a href="index.html" class="hover:text-textlight transition-colors">Home</a>
+      <a href="shop.html" class="text-highlight transition-colors">Shop</a>
+      <a href="cart.html" class="hover:text-textlight transition-colors flex items-center justify-between">
+        <span>Cart</span>
+        <span id="cart-badge-count-mobile" class="bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border border-accent/20">0</span>
+      </a>
+      <a href="shop.html" class="nexus-btn-primary text-center text-xs py-2.5">
+        Shop Now
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-7xl mx-auto px-6 py-12 w-full">
+    
+    <!-- Page Header & Results Count -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-accent/10 pb-6 mb-8 gap-4">
+      <div class="text-left">
+        <h1 class="text-3xl font-extrabold tracking-tight">Quantum Catalog</h1>
+        <p class="text-sm text-muted mt-1" id="results-count">Showing 0 of 0 products</p>
+      </div>
+    </div>
+
+    <!-- Filters, Sort, Search Toolbar -->
+    <div class="bg-cardbg/40 border border-accent/10 p-6 rounded-2xl mb-8 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+      
+      <!-- Category Buttons -->
+      <div class="flex flex-wrap items-center gap-2" id="category-filters-container">
+        <!-- Rendered dynamically -->
+        <span class="text-xs text-muted">Loading categories...</span>
+      </div>
+
+      <!-- Search & Sort Row -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto">
+        <!-- Live Search -->
+        <div class="relative flex-grow sm:w-64">
+          <input type="text" id="live-search-input" placeholder="Search gear..." class="field-input py-2.5 pl-10 pr-4 text-xs" />
+          <svg class="w-4 h-4 text-muted absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+
+        <!-- Sort Dropdown -->
+        <div class="relative sm:w-48">
+          <select id="sort-select" class="field-input py-2.5 pl-4 pr-10 text-xs appearance-none cursor-pointer">
+            <option value="featured">Sort by: Featured</option>
+            <option value="low-high">Price: Low to High</option>
+            <option value="high-low">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+          </select>
+          <svg class="w-4 h-4 text-muted absolute right-3.5 top-3.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Grid & Empty State -->
+    <div>
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- Rendered dynamically from script -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden flex-col items-center justify-center py-20 px-6 text-center border border-dashed border-accent/20 rounded-2xl bg-cardbg/10 max-w-md mx-auto mt-12 gap-4">
+        <div class="text-accent text-5xl">✦</div>
+        <h2 class="text-xl font-bold text-textlight">No Gear Found</h2>
+        <p class="text-xs text-muted max-w-xs">We couldn't find any products matching your active search filters. Try adjusting your query or category filter.</p>
+        <button id="clear-filters-btn" class="nexus-btn-primary py-2 px-6 text-xs mt-2">
+          Reset All Filters
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-950 border-t border-accent/10 py-12 text-center text-xs text-muted">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <a href="index.html" class="text-lg font-bold tracking-wider text-textlight hover:text-highlight transition-colors">
+        SUPPLY <span class="text-highlight">✦</span>
+      </a>
+      <p>&copy; 2026 SUPPLY Corporation. All rights reserved. Curated Premium Gear.</p>
+      <div class="flex gap-4">
+        <a href="shop.html" class="hover:text-textlight transition-colors">Catalog</a>
+        <a href="cart.html" class="hover:text-textlight transition-colors">Cart Page</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="products.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // State management for filtering, sorting, and search
+    let activeCategory = 'All';
+    let activeSort = 'featured';
+    let searchQuery = '';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Setup elements
+      const searchInput = document.getElementById('live-search-input');
+      const sortSelect = document.getElementById('sort-select');
+      const clearBtn = document.getElementById('clear-filters-btn');
+
+      // Bind search
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value.trim().toLowerCase();
+        renderShopPage();
+      });
+
+      // Bind sort
+      sortSelect.addEventListener('change', (e) => {
+        activeSort = e.target.value;
+        renderShopPage();
+      });
+
+      // Bind clear button
+      clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        sortSelect.value = 'featured';
+        activeCategory = 'All';
+        activeSort = 'featured';
+        searchQuery = '';
+        renderShopPage();
+      });
+
+      // Render filters and products
+      renderCategories();
+      renderShopPage();
+    });
+
+    // Dynamically render categories buttons
+    function renderCategories() {
+      const filterContainer = document.getElementById('category-filters-container');
+      if (!filterContainer || typeof products === 'undefined') return;
+
+      const categories = ['All', ...new Set(products.map(p => p.category))];
+      filterContainer.innerHTML = categories.map(cat => `
+        <button 
+          data-category="${cat}"
+          class="category-btn py-1.5 px-4 rounded-full text-xs font-semibold border transition-all duration-200 ${
+            cat === activeCategory 
+              ? 'bg-accent text-textlight border-accent/30 shadow-[0_0_10px_rgba(124,58,237,0.3)]' 
+              : 'bg-cardbg/40 text-muted border-accent/10 hover:text-textlight hover:border-accent/30'
+          }"
+        >
+          ${cat}
+        </button>
+      `).join('');
+
+      // Bind category events
+      filterContainer.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          activeCategory = btn.getAttribute('data-category');
+          renderCategories();
+          renderShopPage();
+        });
+      });
+    }
+
+    // Dynamic catalog renderer combining search, sorting and filters
+    function renderShopPage() {
+      const grid = document.getElementById('product-grid');
+      const resultsCount = document.getElementById('results-count');
+      const emptyState = document.getElementById('empty-state');
+      
+      if (!grid || typeof products === 'undefined') return;
+
+      // 1. FILTERING
+      let filtered = products.filter(p => {
+        const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
+        const matchesSearch = searchQuery === '' || 
+                              p.name.toLowerCase().includes(searchQuery) ||
+                              p.category.toLowerCase().includes(searchQuery) ||
+                              p.description.toLowerCase().includes(searchQuery);
+        return matchesCategory && matchesSearch;
+      });
+
+      // 2. SORTING
+      if (activeSort === 'low-high') {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (activeSort === 'high-low') {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (activeSort === 'rating') {
+        filtered.sort((a, b) => b.rating - a.rating);
+      } else {
+        // Featured default ordering: ID order
+        filtered.sort((a, b) => a.id - b.id);
+      }
+
+      // 3. UPDATE COUNT META
+      resultsCount.textContent = `Showing ${filtered.length} of ${products.length} products`;
+
+      // 4. CHECK EMPTY STATE
+      if (filtered.length === 0) {
+        grid.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+        return;
+      }
+      grid.classList.remove('hidden');
+      emptyState.classList.add('hidden');
+      emptyState.classList.remove('flex');
+
+      // 5. RENDER GRID
+      grid.innerHTML = filtered.map(p => `
+        <div class="product-card bg-slate-900/40 border border-accent/10 rounded-2xl overflow-hidden flex flex-col group relative">
+          <!-- Card Image Links to Details -->
+          <a href="product.html?id=${p.id}" class="block overflow-hidden relative aspect-square bg-white">
+            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
+            <span class="absolute top-4 left-4 bg-accent/90 backdrop-blur-md text-[10px] font-bold px-3 py-1 rounded-full text-slate-100 tracking-wider uppercase border border-accent/20">${p.category}</span>
+          </a>
+          
+          <div class="p-6 flex flex-col flex-grow">
+            <!-- Stars row -->
+            <div class="flex items-center gap-1 mb-2">
+              ${renderStarsHTML(p.rating)}
+              <span class="text-xs text-muted ml-1">(${p.rating.toFixed(1)})</span>
+            </div>
+            
+            <a href="product.html?id=${p.id}" class="text-base font-bold text-textlight mb-2 hover:text-accent transition-colors line-clamp-1">${p.name}</a>
+            <p class="text-xs text-muted line-clamp-2 mb-4 flex-grow">${p.description}</p>
+            
+            <div class="flex items-center justify-between mt-auto pt-4 border-t border-accent/5">
+              <span class="text-lg font-bold text-textlight">$${p.price.toFixed(2)}</span>
+              <button onclick="addToCart(${p.id}, 1)" class="nexus-btn-primary py-2 px-4 text-xs font-semibold shadow-none hover:shadow-[0_0_15px_rgba(124,58,237,0.3)]">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderStarsHTML(rating) {
+      let stars = '';
+      for (let i = 1; i <= 5; i++) {
+        if (rating >= i) {
+          stars += `<svg class="w-4 h-4 star-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`;
+        } else {
+          stars += `<svg class="w-4 h-4 star-icon empty" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`;
+        }
+      }
+      return stars;
+    }
+  </script>
+</body>
+</html>

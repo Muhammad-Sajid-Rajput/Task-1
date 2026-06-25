@@ -1,0 +1,209 @@
+/* ==========================================================
+   SUPPLY Premium Design Tokens & Utilities
+   ========================================================== */
+
+/* Custom Fonts & Variable Configuration */
+:root {
+  --color-bg: #0a0a0f;
+  --color-card: #12121e;
+  --color-violet: #7c3aed;
+  --color-lime: #a3e635;
+  --color-white: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --color-border: rgba(124, 58, 237, 0.15);
+  --color-border-hover: rgba(124, 58, 237, 0.4);
+}
+
+/* Base Body Styles */
+body {
+  font-family: 'Sora', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-white);
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-violet);
+}
+
+/* Form Autofill Styling Overrides */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-white) !important;
+  -webkit-box-shadow: 0 0 0px 1000px #12121e inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+  border-color: var(--color-violet) !important;
+}
+
+/* Focus Visible Style */
+:focus-visible {
+  outline: 2px solid var(--color-violet);
+  outline-offset: 2px;
+}
+
+/* Reusable Form Inputs */
+.field-input {
+  width: 100%;
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-white);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+.field-input:focus {
+  border-color: var(--color-violet);
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.25);
+}
+
+/* Reusable Premium Buttons */
+.nexus-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-violet);
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nexus-btn-primary:hover {
+  background-color: #6d28d9;
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.6);
+}
+.nexus-btn-primary:active {
+  transform: translateY(0);
+}
+.nexus-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.nexus-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: 1px solid var(--color-violet);
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nexus-btn-outline:hover {
+  background-color: rgba(124, 58, 237, 0.1);
+  border-color: var(--color-lime);
+  transform: translateY(-1px);
+}
+.nexus-btn-outline:active {
+  transform: translateY(0);
+}
+
+/* Star SVG Colors */
+.star-icon {
+  color: var(--color-lime);
+  fill: var(--color-lime);
+}
+.star-icon.empty {
+  color: #334155;
+  fill: transparent;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+.animate-pulse-glow {
+  animation: pulse-glow 8s ease-in-out infinite;
+}
+
+/* Toast Notifications styling */
+.toast-container {
+  pointer-events: none;
+  z-index: 9999;
+}
+.toast-message {
+  pointer-events: auto;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Grid Animations */
+.product-card {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px -10px rgba(124, 58, 237, 0.3);
+  border-color: rgba(124, 58, 237, 0.5);
+}

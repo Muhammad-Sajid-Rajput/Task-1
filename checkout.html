@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — SUPPLY</title>
+  <!-- Google Fonts: Sora + DM Serif Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Sora', 'sans-serif'],
+            serif: ['DM Serif Display', 'serif'],
+          },
+          colors: {
+            darkbg: '#0a0a0f',
+            cardbg: '#12121e',
+            accent: '#7c3aed',
+            highlight: '#a3e635',
+            textlight: '#f8fafc',
+            muted: '#94a3b8'
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-darkbg text-textlight antialiased flex flex-col min-h-screen">
+
+  <!-- Sticky Navbar -->
+  <header class="sticky top-0 z-50 bg-darkbg/80 backdrop-blur-md border-b border-accent/10">
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <span class="text-2xl font-bold tracking-wider text-textlight">
+          SUPPLY <span class="text-highlight">✦</span>
+        </span>
+        <span class="hidden lg:inline-block h-4 w-[1px] bg-accent/30"></span>
+        <span class="hidden lg:inline-block text-[9px] uppercase tracking-[0.25em] text-muted group-hover:text-highlight transition-colors mt-0.5">
+          Curated Premium Gear.
+        </span>
+      </a>
+      
+      <!-- Nav Links -->
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-muted">
+        <a href="index.html" class="hover:text-textlight transition-colors">Home</a>
+        <a href="shop.html" class="hover:text-textlight transition-colors">Shop</a>
+        <a href="cart.html" class="hover:text-textlight transition-colors flex items-center gap-2">
+          Cart
+          <span id="cart-badge-count" class="hidden bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full items-center justify-center border border-accent/20">0</span>
+        </a>
+      </div>
+
+      <!-- Action Button -->
+      <div class="flex items-center gap-4">
+        <a href="shop.html" class="nexus-btn-primary hidden md:inline-flex text-xs">
+          Shop Now
+        </a>
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden text-textlight hover:text-highlight focus:outline-none" aria-label="Toggle menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-cardbg border-b border-accent/15 py-4 px-6 flex flex-col gap-4 text-sm font-medium">
+      <a href="index.html" class="hover:text-textlight transition-colors">Home</a>
+      <a href="shop.html" class="hover:text-textlight transition-colors">Shop</a>
+      <a href="cart.html" class="hover:text-textlight transition-colors flex items-center justify-between">
+        <span>Cart</span>
+        <span id="cart-badge-count-mobile" class="bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border border-accent/20">0</span>
+      </a>
+      <a href="shop.html" class="nexus-btn-primary text-center text-xs py-2.5">
+        Shop Now
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-7xl mx-auto px-6 py-12 w-full">
+    
+    <!-- Title -->
+    <div class="border-b border-accent/10 pb-6 mb-8 text-left">
+      <h1 class="text-3xl font-extrabold tracking-tight">Secure Checkout</h1>
+    </div>
+
+    <!-- Empty Checkout Redirect State -->
+    <div id="checkout-empty-state" class="hidden flex-col items-center justify-center py-20 px-6 text-center border border-dashed border-accent/20 rounded-2xl bg-cardbg/10 max-w-md mx-auto gap-4">
+      <div class="text-accent text-5xl">✦</div>
+      <h2 class="text-xl font-bold text-textlight">No Gear to Checkout</h2>
+      <p class="text-xs text-muted max-w-xs">Your cart is empty. You must load items into your payload before checking out.</p>
+      <a href="shop.html" class="nexus-btn-primary py-2.5 px-8 text-xs mt-2">
+        Return to Catalog
+      </a>
+    </div>
+
+    <!-- Success Order State -->
+    <div id="checkout-success-state" class="hidden flex-col items-center justify-center py-20 px-6 text-center border border-accent/20 rounded-3xl bg-cardbg/20 max-w-lg mx-auto gap-6">
+      <div class="w-16 h-16 rounded-full bg-highlight/15 border border-highlight/30 flex items-center justify-center text-highlight text-3xl font-bold">
+        ✓
+      </div>
+      <div>
+        <h2 class="text-3xl font-extrabold tracking-tight text-textlight font-serif italic">Order Successful</h2>
+        <p class="text-xs text-muted mt-2">Your order has been logged into the SUPPLY dispatch queue.</p>
+      </div>
+      <div class="bg-darkbg border border-accent/15 px-6 py-4 rounded-2xl w-full max-w-xs text-left flex flex-col gap-2">
+        <div class="flex justify-between text-xs">
+          <span class="text-muted">Order ID:</span>
+          <span id="success-order-id" class="font-bold text-textlight">#SP-000000</span>
+        </div>
+        <div class="flex justify-between text-xs">
+          <span class="text-muted">Estimated Delivery:</span>
+          <span class="font-semibold text-highlight">Within 24 Light Hours</span>
+        </div>
+      </div>
+      <p class="text-[11px] text-muted max-w-xs">A telemetry log and tracking invoice will be delivered to your contact frequency shortly.</p>
+      <a href="shop.html" class="nexus-btn-primary py-2.5 px-8 text-xs mt-2">
+        Continue Shopping
+      </a>
+    </div>
+
+    <!-- Active Checkout Layout -->
+    <div id="checkout-active-grid" class="hidden flex flex-col lg:flex-row gap-12 items-start text-left">
+      
+      <!-- Left Column: Fields Form (60%) -->
+      <form id="checkout-form" novalidate class="w-full lg:w-3/5 flex flex-col gap-8">
+        
+        <!-- SECTION 1: Contact Info -->
+        <div class="flex flex-col gap-4">
+          <h2 class="text-lg font-bold text-textlight flex items-center gap-2 border-b border-accent/10 pb-2 text-left">
+            <span class="text-highlight">01</span> Contact Information
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="fullname" class="block text-xs font-semibold text-muted mb-1.5">Full Name</label>
+              <input type="text" id="fullname" class="field-input text-xs" placeholder="John Doe" required />
+              <span id="fullname-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+            </div>
+            <div>
+              <label for="email" class="block text-xs font-semibold text-muted mb-1.5">Email Address</label>
+              <input type="email" id="email" class="field-input text-xs" placeholder="johndoe@quantum.com" required />
+              <span id="email-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+            </div>
+            <div class="md:col-span-2">
+              <label for="phone" class="block text-xs font-semibold text-muted mb-1.5">Phone Frequency</label>
+              <input type="tel" id="phone" class="field-input text-xs" placeholder="+1 (555) 019-9000" required />
+              <span id="phone-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: Shipping Destination -->
+        <div class="flex flex-col gap-4">
+          <h2 class="text-lg font-bold text-textlight flex items-center gap-2 border-b border-accent/10 pb-2">
+            <span class="text-highlight">02</span> Shipping Destination
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+            <div class="md:col-span-6">
+              <label for="address" class="block text-xs font-semibold text-muted mb-1.5">Street Address</label>
+              <input type="text" id="address" class="field-input text-xs" placeholder="102 Quantum Plaza, Sector 4" required />
+              <span id="address-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+            </div>
+            <div class="md:col-span-3">
+              <label for="city" class="block text-xs font-semibold text-muted mb-1.5">City</label>
+              <input type="text" id="city" class="field-input text-xs" placeholder="Neo City" required />
+              <span id="city-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+            </div>
+            <div class="md:col-span-2">
+              <label for="state" class="block text-xs font-semibold text-muted mb-1.5">State / Sector</label>
+              <input type="text" id="state" class="field-input text-xs" placeholder="Sector 9" required />
+              <span id="state-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+            </div>
+            <div class="md:col-span-1">
+              <label for="zip" class="block text-xs font-semibold text-muted mb-1.5">ZIP</label>
+              <input type="text" id="zip" class="field-input text-xs px-2" placeholder="90210" required />
+              <span id="zip-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+            </div>
+            <div class="md:col-span-6">
+              <label for="country" class="block text-xs font-semibold text-muted mb-1.5">Country</label>
+              <select id="country" class="field-input text-xs pr-10 appearance-none cursor-pointer" required>
+                <option value="">Select country...</option>
+                <option value="US">United States / Terran Union</option>
+                <option value="CA">Canada / Northern Outpost</option>
+                <option value="UK">United Kingdom / Atlantic Sector</option>
+                <option value="AU">Australia / Southern Zone</option>
+                <option value="DE">Germany / European Core</option>
+                <option value="JP">Japan / Eastern Hub</option>
+              </select>
+              <span id="country-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 3: Credit Card Node -->
+        <div class="flex flex-col gap-4">
+          <h2 class="text-lg font-bold text-textlight flex items-center gap-2 border-b border-accent/10 pb-2">
+            <span class="text-highlight">03</span> Credit Card Node
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="md:col-span-4">
+              <label for="cardnumber" class="block text-xs font-semibold text-muted mb-1.5">Card Number</label>
+              <input type="text" id="cardnumber" maxlength="19" class="field-input text-xs" placeholder="4000 1234 5678 9010" required />
+              <span id="cardnumber-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+            </div>
+            <div class="md:col-span-2">
+              <label for="cardexpiry" class="block text-xs font-semibold text-muted mb-1.5">Expiry Date</label>
+              <input type="text" id="cardexpiry" maxlength="5" class="field-input text-xs" placeholder="MM/YY" required />
+              <span id="cardexpiry-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+            </div>
+            <div class="md:col-span-2">
+              <label for="cardcvv" class="block text-xs font-semibold text-muted mb-1.5">CVV Code</label>
+              <input type="password" id="cardcvv" maxlength="4" class="field-input text-xs" placeholder="•••" required />
+              <span id="cardcvv-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+            </div>
+            <div class="md:col-span-4">
+              <label for="cardname" class="block text-xs font-semibold text-muted mb-1.5">Name on Card</label>
+              <input type="text" id="cardname" class="field-input text-xs" placeholder="JOHN DOE" required />
+              <span id="cardname-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="nexus-btn-primary py-4 text-sm mt-4">
+          Place Order & Launch
+        </button>
+
+      </form>
+      
+      <!-- Right Column: Cart Summary (40%) -->
+      <div class="w-full lg:w-2/5 flex flex-col gap-6 sticky top-24">
+        <div class="bg-cardbg/40 border border-accent/10 p-6 rounded-2xl flex flex-col gap-6">
+          <h2 class="text-base font-bold text-textlight border-b border-accent/10 pb-4">Payload Summary</h2>
+          
+          <!-- Summary Items -->
+          <div id="checkout-summary-items" class="flex flex-col gap-4 divide-y divide-accent/5 max-h-64 overflow-y-auto pr-2">
+            <!-- Rendered dynamically -->
+          </div>
+
+          <!-- Dynamic calculation blocks -->
+          <div class="border-t border-accent/10 pt-4 flex flex-col gap-3 text-sm">
+            <div class="flex items-center justify-between">
+              <span class="text-muted">Subtotal</span>
+              <span id="summary-subtotal" class="font-semibold text-textlight">$0.00</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-muted">Shipping</span>
+              <span id="summary-shipping" class="font-semibold text-textlight">$0.00</span>
+            </div>
+            <div class="border-t border-accent/10 pt-4 flex items-center justify-between">
+              <span class="font-bold text-textlight">Total payload</span>
+              <span id="summary-total" class="font-bold text-highlight text-lg">$0.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-950 border-t border-accent/10 py-12 text-center text-xs text-muted">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <a href="index.html" class="text-lg font-bold tracking-wider text-textlight hover:text-highlight transition-colors">
+        SUPPLY <span class="text-highlight">✦</span>
+      </a>
+      <p>&copy; 2026 SUPPLY Corporation. All rights reserved. Curated Premium Gear.</p>
+      <div class="flex gap-4">
+        <a href="shop.html" class="hover:text-textlight transition-colors">Catalog</a>
+        <a href="cart.html" class="hover:text-textlight transition-colors">Cart Page</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="products.js"></script>
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCheckoutPage();
+      setupCheckoutForm();
+    });
+
+    // Checkout page renderer
+    function renderCheckoutPage() {
+      const summaryContainer = document.getElementById('checkout-summary-items');
+      const emptyState = document.getElementById('checkout-empty-state');
+      const activeGrid = document.getElementById('checkout-active-grid');
+      
+      if (!summaryContainer || !emptyState || !activeGrid) return;
+
+      const cart = getCart();
+
+      // Check for empty cart
+      if (cart.length === 0) {
+        activeGrid.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+        return;
+      }
+
+      activeGrid.classList.remove('hidden');
+      emptyState.classList.add('hidden');
+      emptyState.classList.remove('flex');
+
+      // Render items
+      summaryContainer.innerHTML = cart.map(item => `
+        <div class="flex items-center justify-between py-2 text-xs">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded bg-white border border-accent/5 overflow-hidden flex-shrink-0">
+              <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover" />
+            </div>
+            <div>
+              <span class="font-bold text-textlight line-clamp-1">${item.name}</span>
+              <span class="text-[10px] text-muted">Qty: ${item.quantity}</span>
+            </div>
+          </div>
+          <span class="font-semibold text-highlight">$${(item.price * item.quantity).toFixed(2)}</span>
+        </div>
+      `).join('');
+
+      // Render totals
+      const { subtotal, shipping, total } = getCartTotal();
+      document.getElementById('summary-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById('summary-shipping').textContent = shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`;
+      document.getElementById('summary-total').textContent = `$${total.toFixed(2)}`;
+    }
+
+    // Set up validation formatters and submission handler
+    function setupCheckoutForm() {
+      const form = document.getElementById('checkout-form');
+      if (!form) return;
+
+      const cardNum = document.getElementById('cardnumber');
+      const cardExp = document.getElementById('cardexpiry');
+      const cardCvv = document.getElementById('cardcvv');
+      
+      // Auto-format card number as XXXX XXXX XXXX XXXX
+      cardNum.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+        let matches = value.match(/\d{4,16}/g);
+        let match = matches && matches[0] || '';
+        let parts = [];
+        for (let i = 0, len = match.length; i < len; i += 4) {
+          parts.push(match.substring(i, i + 4));
+        }
+        e.target.value = parts.length > 0 ? parts.join(' ') : value;
+      });
+
+      // Auto-format expiry as MM/YY
+      cardExp.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 2) {
+          e.target.value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        } else {
+          e.target.value = value;
+        }
+      });
+
+      // Format CVV code (numbers only)
+      cardCvv.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/\D/g, '');
+      });
+
+      // Setup blur validation on all inputs and selects
+      const fields = form.querySelectorAll('input, select');
+      fields.forEach(field => {
+        field.addEventListener('blur', () => {
+          validateField(field);
+        });
+        field.addEventListener('input', () => {
+          if (field.classList.contains('border-red-500')) {
+            validateField(field, true); // clear errors silently
+          }
+        });
+      });
+
+      // Form submission
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        let isFormValid = true;
+        fields.forEach(field => {
+          const isValid = validateField(field);
+          if (!isValid) {
+            isFormValid = false;
+          }
+        });
+
+        if (isFormValid) {
+          // Clear cart
+          localStorage.removeItem('supply_cart');
+          updateNavBadge();
+
+          // Generate random order ID
+          const orderNum = 'SP-' + Math.floor(100000 + Math.random() * 900000);
+          
+          // Show success state
+          document.getElementById('checkout-active-grid').classList.add('hidden');
+          document.getElementById('success-order-id').textContent = '#' + orderNum;
+          document.getElementById('checkout-success-state').classList.remove('hidden');
+          document.getElementById('checkout-success-state').classList.add('flex');
+          
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          showToast('Please correct the validation errors in your form fields.');
+          
+          // Scroll to the first invalid field
+          const firstInvalid = form.querySelector('.border-red-500');
+          if (firstInvalid) {
+            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            firstInvalid.focus();
+          }
+        }
+      });
+    }
+
+    // Inline field validation logic
+    function validateField(field, silent = false) {
+      const value = field.value.trim();
+      const id = field.id;
+      let isValid = true;
+      let errorMsg = '';
+
+      switch(id) {
+        case 'fullname':
+          if (value.length < 3) {
+            isValid = false;
+            errorMsg = 'Full name must be at least 3 characters.';
+          }
+          break;
+        case 'email':
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(value)) {
+            isValid = false;
+            errorMsg = 'Please enter a valid email address.';
+          }
+          break;
+        case 'phone':
+          const phoneRegex = /^[0-9\-\+\(\)\s]{7,18}$/;
+          if (!phoneRegex.test(value)) {
+            isValid = false;
+            errorMsg = 'Please enter a valid phone number (min 7 digits).';
+          }
+          break;
+        case 'address':
+          if (value.length < 5) {
+            isValid = false;
+            errorMsg = 'Address must be at least 5 characters.';
+          }
+          break;
+        case 'city':
+          if (value.length < 2) {
+            isValid = false;
+            errorMsg = 'City must be at least 2 characters.';
+          }
+          break;
+        case 'state':
+          if (value.length < 2) {
+            isValid = false;
+            errorMsg = 'State is required (min 2 characters).';
+          }
+          break;
+        case 'zip':
+          const zipRegex = /^[A-Za-z0-9\s-]{4,10}$/;
+          if (!zipRegex.test(value)) {
+            isValid = false;
+            errorMsg = 'ZIP/Postal code is invalid (min 4 characters).';
+          }
+          break;
+        case 'country':
+          if (!value) {
+            isValid = false;
+            errorMsg = 'Please select a country.';
+          }
+          break;
+        case 'cardnumber':
+          const rawCard = value.replace(/\s+/g, '');
+          if (rawCard.length !== 16 || isNaN(rawCard)) {
+            isValid = false;
+            errorMsg = 'Card number must be exactly 16 digits.';
+          }
+          break;
+        case 'cardexpiry':
+          const expiryRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+          if (!expiryRegex.test(value)) {
+            isValid = false;
+            errorMsg = 'Expiry must be in MM/YY format.';
+          } else {
+            // Check if card is expired
+            const parts = value.split('/');
+            const month = parseInt(parts[0]);
+            const year = parseInt('20' + parts[1]);
+            const expiryDate = new Date(year, month - 1, 1);
+            const now = new Date();
+            // set to first of current month
+            const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+            if (expiryDate < currentMonthStart) {
+              isValid = false;
+              errorMsg = 'This card is already expired.';
+            }
+          }
+          break;
+        case 'cardcvv':
+          if (value.length < 3 || value.length > 4 || isNaN(value)) {
+            isValid = false;
+            errorMsg = 'CVV must be 3 or 4 digits.';
+          }
+          break;
+        case 'cardname':
+          if (value.length < 3) {
+            isValid = false;
+            errorMsg = 'Name on card must be at least 3 characters.';
+          }
+          break;
+      }
+
+      const errorContainer = document.getElementById(`${id}-error`);
+      if (!isValid && !silent) {
+        field.classList.add('border-red-500');
+        field.classList.remove('border-accent/15', 'focus:border-accent');
+        if (errorContainer) {
+          errorContainer.textContent = errorMsg;
+          errorContainer.classList.remove('hidden');
+        }
+      } else {
+        field.classList.remove('border-red-500');
+        field.classList.add('border-accent/15');
+        if (errorContainer) {
+          errorContainer.textContent = '';
+          errorContainer.classList.add('hidden');
+        }
+      }
+
+      return isValid;
+    }
+  </script>
+</body>
+</html>
