@@ -4,101 +4,77 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product Details — SUPPLY</title>
-  <!-- Google Fonts: Sora + DM Serif Display -->
+  <meta name="description" content="View product details, ratings, and add to cart on SUPPLY.">
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind config MUST load before the CDN script -->
+  <script src="tailwind.config.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Sora', 'sans-serif'],
-            serif: ['DM Serif Display', 'serif'],
-          },
-          colors: {
-            darkbg: '#0a0a0f',
-            cardbg: '#12121e',
-            accent: '#7c3aed',
-            highlight: '#a3e635',
-            textlight: '#f8fafc',
-            muted: '#94a3b8'
-          }
-        }
-      }
-    }
-  </script>
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-darkbg text-textlight antialiased flex flex-col min-h-screen">
 
-  <!-- Sticky Navbar -->
+  <!-- ── Navbar ── -->
   <header class="sticky top-0 z-50 bg-darkbg/80 backdrop-blur-md border-b border-accent/10">
-    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between" aria-label="Main navigation">
       <a href="index.html" class="flex items-center gap-3 group">
-        <span class="text-2xl font-bold tracking-wider text-textlight">
-          SUPPLY <span class="text-highlight">✦</span>
-        </span>
-        <span class="hidden lg:inline-block h-4 w-[1px] bg-accent/30"></span>
-        <span class="hidden lg:inline-block text-[9px] uppercase tracking-[0.25em] text-muted group-hover:text-highlight transition-colors mt-0.5">
-          Curated Premium Gear.
-        </span>
+        <span class="text-2xl font-bold tracking-wider text-textlight">SUPPLY <span class="text-highlight" aria-hidden="true">✦</span></span>
+        <span class="hidden lg:inline-block h-4 w-px bg-accent/30" aria-hidden="true"></span>
+        <span class="hidden lg:inline-block text-[9px] uppercase tracking-[0.25em] text-muted group-hover:text-highlight transition-colors mt-0.5">Curated Premium Gear.</span>
       </a>
-      
-      <!-- Nav Links -->
+
       <div class="hidden md:flex items-center gap-8 text-sm font-medium text-muted">
         <a href="index.html" class="hover:text-textlight transition-colors">Home</a>
         <a href="shop.html" class="hover:text-textlight transition-colors">Shop</a>
         <a href="cart.html" class="hover:text-textlight transition-colors flex items-center gap-2">
           Cart
-          <span id="cart-badge-count" class="hidden bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full items-center justify-center border border-accent/20">0</span>
+          <span id="cart-badge-count" class="hidden bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full items-center justify-center border border-accent/20" aria-label="items in cart">0</span>
         </a>
       </div>
 
-      <!-- Action Button -->
       <div class="flex items-center gap-4">
-        <a href="shop.html" class="nexus-btn-primary hidden md:inline-flex text-xs">
-          Shop Now
-        </a>
-        <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" class="md:hidden text-textlight hover:text-highlight focus:outline-none" aria-label="Toggle menu">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        <a href="shop.html" class="nexus-btn-primary hidden md:inline-flex text-xs">Shop Now</a>
+        <button id="mobile-menu-btn" class="md:hidden text-textlight hover:text-highlight focus:outline-none" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
       </div>
     </nav>
-    
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-cardbg border-b border-accent/15 py-4 px-6 flex flex-col gap-4 text-sm font-medium">
+
+    <div id="mobile-menu" class="hidden md:hidden bg-cardbg border-b border-accent/15 py-4 px-6 flex-col gap-4 text-sm font-medium" role="navigation" aria-label="Mobile navigation">
       <a href="index.html" class="hover:text-textlight transition-colors">Home</a>
       <a href="shop.html" class="hover:text-textlight transition-colors">Shop</a>
       <a href="cart.html" class="hover:text-textlight transition-colors flex items-center justify-between">
         <span>Cart</span>
-        <span id="cart-badge-count-mobile" class="bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border border-accent/20">0</span>
+        <span id="cart-badge-count-mobile" class="hidden bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full items-center justify-center border border-accent/20" aria-label="items in cart">0</span>
       </a>
-      <a href="shop.html" class="nexus-btn-primary text-center text-xs py-2.5">
-        Shop Now
-      </a>
+      <a href="shop.html" class="nexus-btn-primary text-center text-xs py-2.5">Shop Now</a>
     </div>
   </header>
 
-  <!-- Main Content Container -->
+  <!-- ── Main ── -->
   <main class="flex-grow max-w-7xl mx-auto px-6 py-12 w-full">
-    
-    <!-- Product Detail Block -->
+
+    <!-- Breadcrumb — filled dynamically -->
+    <nav id="breadcrumb" class="hidden text-xs text-muted mb-8 items-center gap-2" aria-label="Breadcrumb">
+      <a href="index.html" class="hover:text-textlight transition-colors">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="shop.html" class="hover:text-textlight transition-colors">Shop</a>
+      <span aria-hidden="true">/</span>
+      <span id="breadcrumb-category" class="hover:text-textlight transition-colors cursor-pointer"></span>
+      <span aria-hidden="true">/</span>
+      <span id="breadcrumb-name" class="text-textlight font-semibold" aria-current="page"></span>
+    </nav>
+
+    <!-- Product Detail -->
     <div id="product-container" class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-20">
-      <!-- Image Column (Left) -->
       <div id="product-image-col" class="bg-white border border-accent/10 rounded-3xl overflow-hidden aspect-square flex items-center justify-center">
         <div class="animate-pulse w-full h-full bg-slate-900/50"></div>
       </div>
-      
-      <!-- Info Column (Right) -->
       <div id="product-info-col" class="flex flex-col gap-6 text-left">
-        <!-- Renders dynamically -->
         <div class="animate-pulse flex flex-col gap-4">
           <div class="h-6 w-24 bg-slate-900 rounded"></div>
           <div class="h-10 w-3/4 bg-slate-900 rounded"></div>
@@ -111,91 +87,76 @@
     <!-- Related Products -->
     <div id="related-section" class="hidden border-t border-accent/10 pt-16">
       <div class="text-left mb-10">
-        <span class="text-xs font-bold uppercase tracking-wider text-highlight font-sans">Matching Gear</span>
+        <span class="text-xs font-bold uppercase tracking-wider text-highlight">More Like This</span>
         <h2 class="text-2xl md:text-3xl font-extrabold font-serif italic text-textlight mt-1">Related Products</h2>
       </div>
-      <div id="related-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Rendered dynamically -->
-      </div>
+      <div id="related-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </div>
 
     <!-- Error State -->
-    <div id="product-error" class="hidden flex-col items-center justify-center py-20 px-6 text-center border border-dashed border-accent/20 rounded-2xl bg-cardbg/10 max-w-md mx-auto gap-4">
-      <div class="text-red-500 text-5xl">⚠</div>
-      <h2 class="text-xl font-bold text-textlight">Product Not Found</h2>
-      <p class="text-xs text-muted max-w-xs">We couldn't retrieve the details for this item. It might not exist in our quantum logs.</p>
-      <a href="shop.html" class="nexus-btn-primary py-2 px-6 text-xs mt-2">
-        Return to Catalog
-      </a>
+    <div id="product-error" class="hidden py-20 px-6 text-center border border-dashed border-accent/20 rounded-2xl bg-cardbg/10 max-w-md mx-auto" role="alert">
+      <div class="text-red-500 text-5xl mb-4" aria-hidden="true">⚠</div>
+      <h2 class="text-xl font-bold text-textlight mb-2">Product Not Found</h2>
+      <p class="text-xs text-muted max-w-xs mx-auto mb-6">We couldn't find this product. It may have been removed from the catalog.</p>
+      <a href="shop.html" class="nexus-btn-primary py-2 px-6 text-xs">Return to Catalog</a>
     </div>
 
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-slate-950 border-t border-accent/10 py-12 text-center text-xs text-muted">
+  <!-- ── Footer ── -->
+  <footer class="bg-slate-950 border-t border-accent/10 py-12 text-xs text-muted">
     <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-      <a href="index.html" class="text-lg font-bold tracking-wider text-textlight hover:text-highlight transition-colors">
-        SUPPLY <span class="text-highlight">✦</span>
-      </a>
-      <p>&copy; 2026 SUPPLY Corporation. All rights reserved. Curated Premium Gear.</p>
-      <div class="flex gap-4">
+      <a href="index.html" class="text-lg font-bold tracking-wider text-textlight hover:text-highlight transition-colors">SUPPLY <span class="text-highlight" aria-hidden="true">✦</span></a>
+      <p>&copy; 2026 SUPPLY. All rights reserved.</p>
+      <nav class="flex gap-4" aria-label="Footer navigation">
         <a href="shop.html" class="hover:text-textlight transition-colors">Catalog</a>
-        <a href="cart.html" class="hover:text-textlight transition-colors">Cart Page</a>
-      </div>
+        <a href="cart.html" class="hover:text-textlight transition-colors">Cart</a>
+      </nav>
     </div>
   </footer>
 
-  <!-- Scripts -->
   <script src="products.js"></script>
   <script src="script.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      renderProductDetailPage();
-    });
+    document.addEventListener('DOMContentLoaded', renderProductDetailPage);
 
     function renderProductDetailPage() {
-      const container = document.getElementById('product-container');
-      const errorState = document.getElementById('product-error');
-      const relatedSection = document.getElementById('related-section');
-      
       if (typeof products === 'undefined') return;
 
-      // Extract ID from URL
-      const params = new URLSearchParams(window.location.search);
+      const params    = new URLSearchParams(window.location.search);
       const productId = parseInt(params.get('id'));
 
-      if (isNaN(productId)) {
-        showError();
-        return;
-      }
+      if (isNaN(productId)) { showProductError(); return; }
 
-      // Find product
       const product = products.find(p => p.id === productId);
-      if (!product) {
-        showError();
-        return;
-      }
+      if (!product) { showProductError(); return; }
 
-      // Render product layout
+      // Update page title + meta description
       document.title = `${product.name} — SUPPLY`;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', product.description);
 
-      // 1. Render Image Column
-      const imgCol = document.getElementById('product-image-col');
-      imgCol.innerHTML = `
+      // Breadcrumb
+      const breadcrumb = document.getElementById('breadcrumb');
+      const breadCat   = document.getElementById('breadcrumb-category');
+      const breadName  = document.getElementById('breadcrumb-name');
+      breadCat.textContent  = product.category;
+      breadCat.onclick      = () => { location.href = `shop.html?category=${encodeURIComponent(product.category)}`; };
+      breadName.textContent = product.name;
+      breadcrumb.classList.remove('hidden');
+      breadcrumb.classList.add('flex');
+
+      // Image
+      document.getElementById('product-image-col').innerHTML = `
         <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
       `;
 
-      // 2. Render Info Column
-      const infoCol = document.getElementById('product-info-col');
-      infoCol.innerHTML = `
+      // Info
+      document.getElementById('product-info-col').innerHTML = `
         <div>
-          <span class="text-xs font-bold tracking-widest text-highlight uppercase bg-accent/10 border border-accent/20 px-3 py-1 rounded-full">${product.category}</span>
+          <a href="shop.html?category=${encodeURIComponent(product.category)}" class="text-xs font-bold tracking-widest text-highlight uppercase bg-accent/10 border border-accent/20 px-3 py-1 rounded-full hover:bg-accent/20 transition-colors">${product.category}</a>
           <h1 class="text-3xl md:text-4xl font-extrabold text-textlight mt-4 mb-2">${product.name}</h1>
-          
-          <div class="flex items-center gap-1 my-3">
-            ${renderStarsHTML(product.rating)}
-            <span class="text-xs text-muted ml-2">(${product.rating.toFixed(1)} star rating)</span>
-          </div>
+          ${renderStarsBlock(product.rating)}
         </div>
 
         <div class="text-2xl md:text-3xl font-extrabold text-textlight border-y border-accent/10 py-4 my-2">
@@ -203,107 +164,78 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-muted">Description</h3>
+          <h2 class="text-xs font-bold uppercase tracking-wider text-muted">Description</h2>
           <p class="text-sm text-muted leading-relaxed">${product.description}</p>
         </div>
 
-        <!-- Quantity Adjuster & Cart Button -->
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mt-4 pt-6 border-t border-accent/10">
           <div class="flex flex-col gap-2">
-            <span class="text-xs font-bold uppercase tracking-wider text-muted">Quantity</span>
+            <label for="qty-input" class="text-xs font-bold uppercase tracking-wider text-muted">Quantity</label>
             <div class="flex items-center bg-cardbg border border-accent/10 rounded-full h-11 px-2">
-              <button id="qty-minus" class="w-8 h-8 rounded-full flex items-center justify-center text-muted hover:text-textlight hover:bg-accent/15 transition-colors font-bold text-lg">&minus;</button>
-              <input type="number" id="qty-input" value="1" min="1" class="w-12 bg-transparent text-center text-sm font-bold border-none outline-none focus:ring-0 text-textlight appearance-none" />
-              <button id="qty-plus" class="w-8 h-8 rounded-full flex items-center justify-center text-muted hover:text-textlight hover:bg-accent/15 transition-colors font-bold text-lg">+</button>
+              <button id="qty-minus" class="w-8 h-8 rounded-full flex items-center justify-center text-muted hover:text-textlight hover:bg-accent/15 transition-colors font-bold text-lg" aria-label="Decrease quantity">&minus;</button>
+              <input type="number" id="qty-input" value="1" min="1" max="99" class="w-12 bg-transparent text-center text-sm font-bold border-none outline-none focus:ring-0 text-textlight appearance-none" aria-label="Quantity" />
+              <button id="qty-plus" class="w-8 h-8 rounded-full flex items-center justify-center text-muted hover:text-textlight hover:bg-accent/15 transition-colors font-bold text-lg" aria-label="Increase quantity">+</button>
             </div>
           </div>
-
-          <button id="add-to-cart-btn" class="nexus-btn-primary h-11 flex-grow sm:mt-6">
+          <button id="add-to-cart-btn" class="nexus-btn-primary h-11 flex-grow sm:mt-6" aria-label="Add ${product.name} to cart">
             Add to Cart
           </button>
         </div>
       `;
 
-      // Bind quantity adjuster events
+      // Quantity controls
       const qtyInput = document.getElementById('qty-input');
-      const qtyMinus = document.getElementById('qty-minus');
-      const qtyPlus = document.getElementById('qty-plus');
-      const addBtn = document.getElementById('add-to-cart-btn');
-
-      qtyMinus.addEventListener('click', () => {
-        let val = parseInt(qtyInput.value) || 1;
-        if (val > 1) {
-          qtyInput.value = val - 1;
-        }
+      document.getElementById('qty-minus').addEventListener('click', () => {
+        const v = parseInt(qtyInput.value) || 1;
+        if (v > 1) qtyInput.value = v - 1;
       });
-
-      qtyPlus.addEventListener('click', () => {
-        let val = parseInt(qtyInput.value) || 1;
-        qtyInput.value = val + 1;
+      document.getElementById('qty-plus').addEventListener('click', () => {
+        const v = parseInt(qtyInput.value) || 1;
+        if (v < 99) qtyInput.value = v + 1;
       });
-
       qtyInput.addEventListener('change', () => {
-        let val = parseInt(qtyInput.value);
-        if (isNaN(val) || val < 1) {
-          qtyInput.value = 1;
-        }
+        let v = parseInt(qtyInput.value);
+        if (isNaN(v) || v < 1) v = 1;
+        if (v > 99) v = 99;
+        qtyInput.value = v;
+      });
+      document.getElementById('add-to-cart-btn').addEventListener('click', () => {
+        addToCart(product.id, parseInt(qtyInput.value) || 1);
       });
 
-      addBtn.addEventListener('click', () => {
-        const qty = parseInt(qtyInput.value) || 1;
-        addToCart(product.id, qty);
-      });
+      // Related Products
+      const relatedItems = products
+        .filter(p => p.category === product.category && p.id !== product.id)
+        .slice(0, 3);
 
-      // 3. Render Related Products
-      const relatedGrid = document.getElementById('related-grid');
-      const relatedItems = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
-
+      const relatedSection = document.getElementById('related-section');
       if (relatedItems.length > 0) {
         relatedSection.classList.remove('hidden');
-        relatedGrid.innerHTML = relatedItems.map(p => `
-          <div class="product-card bg-slate-900/40 border border-accent/10 rounded-2xl overflow-hidden flex flex-col group relative">
+        document.getElementById('related-grid').innerHTML = relatedItems.map(p => `
+          <div class="product-card bg-slate-900/40 border border-accent/10 rounded-2xl overflow-hidden flex flex-col group">
             <a href="product.html?id=${p.id}" class="block overflow-hidden relative aspect-square bg-white">
               <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
               <span class="absolute top-4 left-4 bg-accent/90 backdrop-blur-md text-[10px] font-bold px-3 py-1 rounded-full text-slate-100 tracking-wider uppercase border border-accent/20">${p.category}</span>
             </a>
             <div class="p-6 flex flex-col flex-grow">
-              <div class="flex items-center gap-1 mb-2">
-                ${renderStarsHTML(p.rating)}
-                <span class="text-xs text-muted ml-1">(${p.rating.toFixed(1)})</span>
-              </div>
-              <a href="product.html?id=${p.id}" class="text-base font-bold text-textlight mb-2 hover:text-accent transition-colors line-clamp-1">${p.name}</a>
+              ${renderStarsBlock(p.rating)}
+              <a href="product.html?id=${p.id}" class="text-base font-bold text-textlight mt-2 mb-2 hover:text-accent transition-colors line-clamp-1">${p.name}</a>
               <p class="text-xs text-muted line-clamp-2 mb-4 flex-grow">${p.description}</p>
               <div class="flex items-center justify-between mt-auto pt-4 border-t border-accent/5">
                 <span class="text-lg font-bold text-textlight">$${p.price.toFixed(2)}</span>
-                <button onclick="addToCart(${p.id}, 1)" class="nexus-btn-primary py-2 px-4 text-xs font-semibold shadow-none hover:shadow-[0_0_15px_rgba(124,58,237,0.3)]">
-                  Add to Cart
-                </button>
+                <button onclick="addToCart(${p.id}, 1)" class="nexus-btn-primary py-2 px-4 text-xs" aria-label="Add ${p.name} to cart">Add to Cart</button>
               </div>
             </div>
           </div>
         `).join('');
-      } else {
-        relatedSection.classList.add('hidden');
       }
     }
 
-    function showError() {
+    function showProductError() {
       document.getElementById('product-container').classList.add('hidden');
       document.getElementById('related-section').classList.add('hidden');
       document.getElementById('product-error').classList.remove('hidden');
-      document.getElementById('product-error').classList.add('flex');
-    }
-
-    function renderStarsHTML(rating) {
-      let stars = '';
-      for (let i = 1; i <= 5; i++) {
-        if (rating >= i) {
-          stars += `<svg class="w-4 h-4 star-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`;
-        } else {
-          stars += `<svg class="w-4 h-4 star-icon empty" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`;
-        }
-      }
-      return stars;
+      document.getElementById('product-error').classList.add('block');
     }
   </script>
 </body>

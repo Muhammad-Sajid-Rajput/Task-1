@@ -4,249 +4,214 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout — SUPPLY</title>
-  <!-- Google Fonts: Sora + DM Serif Display -->
+  <meta name="description" content="Complete your SUPPLY order. Secure checkout with address and payment details.">
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind config MUST load before the CDN script -->
+  <script src="tailwind.config.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Sora', 'sans-serif'],
-            serif: ['DM Serif Display', 'serif'],
-          },
-          colors: {
-            darkbg: '#0a0a0f',
-            cardbg: '#12121e',
-            accent: '#7c3aed',
-            highlight: '#a3e635',
-            textlight: '#f8fafc',
-            muted: '#94a3b8'
-          }
-        }
-      }
-    }
-  </script>
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-darkbg text-textlight antialiased flex flex-col min-h-screen">
 
-  <!-- Sticky Navbar -->
+  <!-- ── Navbar ── -->
   <header class="sticky top-0 z-50 bg-darkbg/80 backdrop-blur-md border-b border-accent/10">
-    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between" aria-label="Main navigation">
       <a href="index.html" class="flex items-center gap-3 group">
-        <span class="text-2xl font-bold tracking-wider text-textlight">
-          SUPPLY <span class="text-highlight">✦</span>
-        </span>
-        <span class="hidden lg:inline-block h-4 w-[1px] bg-accent/30"></span>
-        <span class="hidden lg:inline-block text-[9px] uppercase tracking-[0.25em] text-muted group-hover:text-highlight transition-colors mt-0.5">
-          Curated Premium Gear.
-        </span>
+        <span class="text-2xl font-bold tracking-wider text-textlight">SUPPLY <span class="text-highlight" aria-hidden="true">✦</span></span>
+        <span class="hidden lg:inline-block h-4 w-px bg-accent/30" aria-hidden="true"></span>
+        <span class="hidden lg:inline-block text-[9px] uppercase tracking-[0.25em] text-muted group-hover:text-highlight transition-colors mt-0.5">Curated Premium Gear.</span>
       </a>
-      
-      <!-- Nav Links -->
+
       <div class="hidden md:flex items-center gap-8 text-sm font-medium text-muted">
         <a href="index.html" class="hover:text-textlight transition-colors">Home</a>
         <a href="shop.html" class="hover:text-textlight transition-colors">Shop</a>
         <a href="cart.html" class="hover:text-textlight transition-colors flex items-center gap-2">
           Cart
-          <span id="cart-badge-count" class="hidden bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full items-center justify-center border border-accent/20">0</span>
+          <span id="cart-badge-count" class="hidden bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full items-center justify-center border border-accent/20" aria-label="items in cart">0</span>
         </a>
       </div>
 
-      <!-- Action Button -->
       <div class="flex items-center gap-4">
-        <a href="shop.html" class="nexus-btn-primary hidden md:inline-flex text-xs">
-          Shop Now
-        </a>
-        <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" class="md:hidden text-textlight hover:text-highlight focus:outline-none" aria-label="Toggle menu">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        <a href="shop.html" class="nexus-btn-primary hidden md:inline-flex text-xs">Shop Now</a>
+        <button id="mobile-menu-btn" class="md:hidden text-textlight hover:text-highlight focus:outline-none" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
       </div>
     </nav>
-    
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-cardbg border-b border-accent/15 py-4 px-6 flex flex-col gap-4 text-sm font-medium">
+
+    <div id="mobile-menu" class="hidden md:hidden bg-cardbg border-b border-accent/15 py-4 px-6 flex-col gap-4 text-sm font-medium" role="navigation" aria-label="Mobile navigation">
       <a href="index.html" class="hover:text-textlight transition-colors">Home</a>
       <a href="shop.html" class="hover:text-textlight transition-colors">Shop</a>
       <a href="cart.html" class="hover:text-textlight transition-colors flex items-center justify-between">
         <span>Cart</span>
-        <span id="cart-badge-count-mobile" class="bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border border-accent/20">0</span>
+        <span id="cart-badge-count-mobile" class="hidden bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full items-center justify-center border border-accent/20" aria-label="items in cart">0</span>
       </a>
-      <a href="shop.html" class="nexus-btn-primary text-center text-xs py-2.5">
-        Shop Now
-      </a>
+      <a href="shop.html" class="nexus-btn-primary text-center text-xs py-2.5">Shop Now</a>
     </div>
   </header>
 
-  <!-- Main Content -->
+  <!-- ── Main ── -->
   <main class="flex-grow max-w-7xl mx-auto px-6 py-12 w-full">
-    
-    <!-- Title -->
+
+    <!-- Checkout Progress -->
+    <div class="flex items-center gap-2 text-xs text-muted mb-8" aria-label="Checkout progress">
+      <a href="cart.html" class="hover:text-textlight transition-colors flex items-center gap-1"><span aria-hidden="true">&larr;</span> Cart</a>
+      <span aria-hidden="true">/</span>
+      <span class="text-textlight font-semibold">Checkout</span>
+    </div>
+
     <div class="border-b border-accent/10 pb-6 mb-8 text-left">
       <h1 class="text-3xl font-extrabold tracking-tight">Secure Checkout</h1>
     </div>
 
-    <!-- Empty Checkout Redirect State -->
-    <div id="checkout-empty-state" class="hidden flex-col items-center justify-center py-20 px-6 text-center border border-dashed border-accent/20 rounded-2xl bg-cardbg/10 max-w-md mx-auto gap-4">
-      <div class="text-accent text-5xl">✦</div>
-      <h2 class="text-xl font-bold text-textlight">No Gear to Checkout</h2>
-      <p class="text-xs text-muted max-w-xs">Your cart is empty. You must load items into your payload before checking out.</p>
-      <a href="shop.html" class="nexus-btn-primary py-2.5 px-8 text-xs mt-2">
-        Return to Catalog
-      </a>
+    <!-- Empty Cart State -->
+    <div id="checkout-empty-state" class="hidden py-20 px-6 text-center border border-dashed border-accent/20 rounded-2xl bg-cardbg/10 max-w-md mx-auto" role="status">
+      <div class="text-accent text-5xl mb-4" aria-hidden="true">✦</div>
+      <h2 class="text-xl font-bold text-textlight mb-2">Nothing to Checkout</h2>
+      <p class="text-xs text-muted max-w-xs mx-auto mb-6">Your cart is empty. Add some products before checking out.</p>
+      <a href="shop.html" class="nexus-btn-primary py-2.5 px-8 text-xs">Return to Catalog</a>
     </div>
 
-    <!-- Success Order State -->
-    <div id="checkout-success-state" class="hidden flex-col items-center justify-center py-20 px-6 text-center border border-accent/20 rounded-3xl bg-cardbg/20 max-w-lg mx-auto gap-6">
-      <div class="w-16 h-16 rounded-full bg-highlight/15 border border-highlight/30 flex items-center justify-center text-highlight text-3xl font-bold">
-        ✓
-      </div>
-      <div>
-        <h2 class="text-3xl font-extrabold tracking-tight text-textlight font-serif italic">Order Successful</h2>
-        <p class="text-xs text-muted mt-2">Your order has been logged into the SUPPLY dispatch queue.</p>
-      </div>
-      <div class="bg-darkbg border border-accent/15 px-6 py-4 rounded-2xl w-full max-w-xs text-left flex flex-col gap-2">
+    <!-- Success State -->
+    <div id="checkout-success-state" class="hidden py-20 px-6 text-center border border-accent/20 rounded-3xl bg-cardbg/20 max-w-lg mx-auto" role="status" aria-live="polite">
+      <div class="w-16 h-16 rounded-full bg-highlight/15 border border-highlight/30 flex items-center justify-center text-highlight text-3xl font-bold mx-auto mb-6" aria-hidden="true">✓</div>
+      <h2 class="text-3xl font-extrabold tracking-tight text-textlight font-serif italic mb-2">Order Confirmed!</h2>
+      <p class="text-xs text-muted mb-6">Your order has been received and is being prepared.</p>
+      <div class="bg-darkbg border border-accent/15 px-6 py-4 rounded-2xl max-w-xs mx-auto text-left flex flex-col gap-2 mb-6">
         <div class="flex justify-between text-xs">
           <span class="text-muted">Order ID:</span>
           <span id="success-order-id" class="font-bold text-textlight">#SP-000000</span>
         </div>
         <div class="flex justify-between text-xs">
           <span class="text-muted">Estimated Delivery:</span>
-          <span class="font-semibold text-highlight">Within 24 Light Hours</span>
+          <span class="font-semibold text-highlight">1–2 Business Days</span>
         </div>
       </div>
-      <p class="text-[11px] text-muted max-w-xs">A telemetry log and tracking invoice will be delivered to your contact frequency shortly.</p>
-      <a href="shop.html" class="nexus-btn-primary py-2.5 px-8 text-xs mt-2">
-        Continue Shopping
-      </a>
+      <a href="shop.html" class="nexus-btn-primary py-2.5 px-8 text-xs">Continue Shopping</a>
     </div>
 
-    <!-- Active Checkout Layout -->
-    <div id="checkout-active-grid" class="hidden flex flex-col lg:flex-row gap-12 items-start text-left">
-      
-      <!-- Left Column: Fields Form (60%) -->
+    <!-- Active Checkout -->
+    <div id="checkout-active-grid" class="hidden lg:flex-row gap-12 items-start text-left">
+
+      <!-- Form (60%) -->
       <form id="checkout-form" novalidate class="w-full lg:w-3/5 flex flex-col gap-8">
-        
-        <!-- SECTION 1: Contact Info -->
-        <div class="flex flex-col gap-4">
-          <h2 class="text-lg font-bold text-textlight flex items-center gap-2 border-b border-accent/10 pb-2 text-left">
-            <span class="text-highlight">01</span> Contact Information
-          </h2>
+
+        <!-- Section 1: Contact -->
+        <fieldset class="flex flex-col gap-4">
+          <legend class="text-lg font-bold text-textlight flex items-center gap-2 border-b border-accent/10 pb-2 w-full">
+            <span class="text-highlight" aria-hidden="true">01</span> Contact Information
+          </legend>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label for="fullname" class="block text-xs font-semibold text-muted mb-1.5">Full Name</label>
-              <input type="text" id="fullname" class="field-input text-xs" placeholder="John Doe" required />
-              <span id="fullname-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+              <input type="text" id="fullname" class="field-input text-xs" placeholder="John Doe" required autocomplete="name" />
+              <span id="fullname-error" class="hidden text-[10px] text-red-400 mt-1" role="alert"></span>
             </div>
             <div>
               <label for="email" class="block text-xs font-semibold text-muted mb-1.5">Email Address</label>
-              <input type="email" id="email" class="field-input text-xs" placeholder="johndoe@quantum.com" required />
-              <span id="email-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+              <input type="email" id="email" class="field-input text-xs" placeholder="john@example.com" required autocomplete="email" />
+              <span id="email-error" class="hidden text-[10px] text-red-400 mt-1" role="alert"></span>
             </div>
             <div class="md:col-span-2">
-              <label for="phone" class="block text-xs font-semibold text-muted mb-1.5">Phone Frequency</label>
-              <input type="tel" id="phone" class="field-input text-xs" placeholder="+1 (555) 019-9000" required />
-              <span id="phone-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+              <label for="phone" class="block text-xs font-semibold text-muted mb-1.5">Phone Number</label>
+              <input type="tel" id="phone" class="field-input text-xs" placeholder="+1 (555) 000-0000" required autocomplete="tel" />
+              <span id="phone-error" class="hidden text-[10px] text-red-400 mt-1" role="alert"></span>
             </div>
           </div>
-        </div>
+        </fieldset>
 
-        <!-- SECTION 2: Shipping Destination -->
-        <div class="flex flex-col gap-4">
-          <h2 class="text-lg font-bold text-textlight flex items-center gap-2 border-b border-accent/10 pb-2">
-            <span class="text-highlight">02</span> Shipping Destination
-          </h2>
+        <!-- Section 2: Shipping -->
+        <fieldset class="flex flex-col gap-4">
+          <legend class="text-lg font-bold text-textlight flex items-center gap-2 border-b border-accent/10 pb-2 w-full">
+            <span class="text-highlight" aria-hidden="true">02</span> Shipping Address
+          </legend>
           <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
             <div class="md:col-span-6">
               <label for="address" class="block text-xs font-semibold text-muted mb-1.5">Street Address</label>
-              <input type="text" id="address" class="field-input text-xs" placeholder="102 Quantum Plaza, Sector 4" required />
-              <span id="address-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+              <input type="text" id="address" class="field-input text-xs" placeholder="123 Main St" required autocomplete="street-address" />
+              <span id="address-error" class="hidden text-[10px] text-red-400 mt-1" role="alert"></span>
             </div>
             <div class="md:col-span-3">
               <label for="city" class="block text-xs font-semibold text-muted mb-1.5">City</label>
-              <input type="text" id="city" class="field-input text-xs" placeholder="Neo City" required />
-              <span id="city-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+              <input type="text" id="city" class="field-input text-xs" placeholder="New York" required autocomplete="address-level2" />
+              <span id="city-error" class="hidden text-[10px] text-red-400 mt-1" role="alert"></span>
             </div>
             <div class="md:col-span-2">
-              <label for="state" class="block text-xs font-semibold text-muted mb-1.5">State / Sector</label>
-              <input type="text" id="state" class="field-input text-xs" placeholder="Sector 9" required />
-              <span id="state-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+              <label for="state" class="block text-xs font-semibold text-muted mb-1.5">State</label>
+              <input type="text" id="state" class="field-input text-xs" placeholder="NY" required autocomplete="address-level1" />
+              <span id="state-error" class="hidden text-[10px] text-red-400 mt-1" role="alert"></span>
             </div>
             <div class="md:col-span-1">
               <label for="zip" class="block text-xs font-semibold text-muted mb-1.5">ZIP</label>
-              <input type="text" id="zip" class="field-input text-xs px-2" placeholder="90210" required />
-              <span id="zip-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+              <input type="text" id="zip" class="field-input text-xs px-2" placeholder="10001" required autocomplete="postal-code" />
+              <span id="zip-error" class="hidden text-[10px] text-red-400 mt-1" role="alert"></span>
             </div>
             <div class="md:col-span-6">
               <label for="country" class="block text-xs font-semibold text-muted mb-1.5">Country</label>
-              <select id="country" class="field-input text-xs pr-10 appearance-none cursor-pointer" required>
+              <select id="country" class="field-input text-xs pr-10 appearance-none cursor-pointer" required autocomplete="country">
                 <option value="">Select country...</option>
-                <option value="US">United States / Terran Union</option>
-                <option value="CA">Canada / Northern Outpost</option>
-                <option value="UK">United Kingdom / Atlantic Sector</option>
-                <option value="AU">Australia / Southern Zone</option>
-                <option value="DE">Germany / European Core</option>
-                <option value="JP">Japan / Eastern Hub</option>
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+                <option value="UK">United Kingdom</option>
+                <option value="AU">Australia</option>
+                <option value="DE">Germany</option>
+                <option value="JP">Japan</option>
               </select>
-              <span id="country-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+              <span id="country-error" class="hidden text-[10px] text-red-400 mt-1" role="alert"></span>
             </div>
           </div>
-        </div>
+        </fieldset>
 
-        <!-- SECTION 3: Credit Card Node -->
-        <div class="flex flex-col gap-4">
-          <h2 class="text-lg font-bold text-textlight flex items-center gap-2 border-b border-accent/10 pb-2">
-            <span class="text-highlight">03</span> Credit Card Node
-          </h2>
+        <!-- Section 3: Payment -->
+        <fieldset class="flex flex-col gap-4">
+          <legend class="text-lg font-bold text-textlight flex items-center gap-2 border-b border-accent/10 pb-2 w-full">
+            <span class="text-highlight" aria-hidden="true">03</span> Payment Details
+          </legend>
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div class="md:col-span-4">
               <label for="cardnumber" class="block text-xs font-semibold text-muted mb-1.5">Card Number</label>
-              <input type="text" id="cardnumber" maxlength="19" class="field-input text-xs" placeholder="4000 1234 5678 9010" required />
-              <span id="cardnumber-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+              <input type="text" id="cardnumber" maxlength="19" class="field-input text-xs" placeholder="1234 5678 9012 3456" required autocomplete="cc-number" inputmode="numeric" />
+              <span id="cardnumber-error" class="hidden text-[10px] text-red-400 mt-1" role="alert"></span>
             </div>
             <div class="md:col-span-2">
               <label for="cardexpiry" class="block text-xs font-semibold text-muted mb-1.5">Expiry Date</label>
-              <input type="text" id="cardexpiry" maxlength="5" class="field-input text-xs" placeholder="MM/YY" required />
-              <span id="cardexpiry-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+              <input type="text" id="cardexpiry" maxlength="5" class="field-input text-xs" placeholder="MM/YY" required autocomplete="cc-exp" inputmode="numeric" />
+              <span id="cardexpiry-error" class="hidden text-[10px] text-red-400 mt-1" role="alert"></span>
             </div>
             <div class="md:col-span-2">
-              <label for="cardcvv" class="block text-xs font-semibold text-muted mb-1.5">CVV Code</label>
-              <input type="password" id="cardcvv" maxlength="4" class="field-input text-xs" placeholder="•••" required />
-              <span id="cardcvv-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+              <!-- CVV: type="text" with inputmode="numeric" is semantically correct for a card security code -->
+              <label for="cardcvv" class="block text-xs font-semibold text-muted mb-1.5">CVV</label>
+              <input type="text" id="cardcvv" maxlength="4" class="field-input text-xs" placeholder="•••" required autocomplete="cc-csc" inputmode="numeric" />
+              <span id="cardcvv-error" class="hidden text-[10px] text-red-400 mt-1" role="alert"></span>
             </div>
             <div class="md:col-span-4">
               <label for="cardname" class="block text-xs font-semibold text-muted mb-1.5">Name on Card</label>
-              <input type="text" id="cardname" class="field-input text-xs" placeholder="JOHN DOE" required />
-              <span id="cardname-error" class="hidden text-[10px] text-red-400 mt-1 block"></span>
+              <input type="text" id="cardname" class="field-input text-xs" placeholder="JOHN DOE" required autocomplete="cc-name" />
+              <span id="cardname-error" class="hidden text-[10px] text-red-400 mt-1" role="alert"></span>
             </div>
           </div>
-        </div>
+        </fieldset>
 
         <button type="submit" class="nexus-btn-primary py-4 text-sm mt-4">
-          Place Order & Launch
+          Place Order
         </button>
 
       </form>
-      
-      <!-- Right Column: Cart Summary (40%) -->
+
+      <!-- Summary (40%) -->
       <div class="w-full lg:w-2/5 flex flex-col gap-6 sticky top-24">
         <div class="bg-cardbg/40 border border-accent/10 p-6 rounded-2xl flex flex-col gap-6">
-          <h2 class="text-base font-bold text-textlight border-b border-accent/10 pb-4">Payload Summary</h2>
-          
-          <!-- Summary Items -->
+          <h2 class="text-base font-bold text-textlight border-b border-accent/10 pb-4">Order Summary</h2>
+
           <div id="checkout-summary-items" class="flex flex-col gap-4 divide-y divide-accent/5 max-h-64 overflow-y-auto pr-2">
             <!-- Rendered dynamically -->
           </div>
 
-          <!-- Dynamic calculation blocks -->
           <div class="border-t border-accent/10 pt-4 flex flex-col gap-3 text-sm">
             <div class="flex items-center justify-between">
               <span class="text-muted">Subtotal</span>
@@ -257,7 +222,7 @@
               <span id="summary-shipping" class="font-semibold text-textlight">$0.00</span>
             </div>
             <div class="border-t border-accent/10 pt-4 flex items-center justify-between">
-              <span class="font-bold text-textlight">Total payload</span>
+              <span class="font-bold text-textlight">Total</span>
               <span id="summary-total" class="font-bold text-highlight text-lg">$0.00</span>
             </div>
           </div>
@@ -268,52 +233,50 @@
 
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-slate-950 border-t border-accent/10 py-12 text-center text-xs text-muted">
+  <!-- ── Footer ── -->
+  <footer class="bg-slate-950 border-t border-accent/10 py-12 text-xs text-muted">
     <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-      <a href="index.html" class="text-lg font-bold tracking-wider text-textlight hover:text-highlight transition-colors">
-        SUPPLY <span class="text-highlight">✦</span>
-      </a>
-      <p>&copy; 2026 SUPPLY Corporation. All rights reserved. Curated Premium Gear.</p>
-      <div class="flex gap-4">
+      <a href="index.html" class="text-lg font-bold tracking-wider text-textlight hover:text-highlight transition-colors">SUPPLY <span class="text-highlight" aria-hidden="true">✦</span></a>
+      <p>&copy; 2026 SUPPLY. All rights reserved.</p>
+      <nav class="flex gap-4" aria-label="Footer navigation">
         <a href="shop.html" class="hover:text-textlight transition-colors">Catalog</a>
-        <a href="cart.html" class="hover:text-textlight transition-colors">Cart Page</a>
-      </div>
+        <a href="cart.html" class="hover:text-textlight transition-colors">Cart</a>
+      </nav>
     </div>
   </footer>
 
-  <!-- Scripts -->
   <script src="products.js"></script>
   <script src="script.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       renderCheckoutPage();
-      setupCheckoutForm();
     });
 
-    // Checkout page renderer
     function renderCheckoutPage() {
       const summaryContainer = document.getElementById('checkout-summary-items');
-      const emptyState = document.getElementById('checkout-empty-state');
-      const activeGrid = document.getElementById('checkout-active-grid');
-      
-      if (!summaryContainer || !emptyState || !activeGrid) return;
+      const emptyState       = document.getElementById('checkout-empty-state');
+      const activeGrid       = document.getElementById('checkout-active-grid');
+      if (!summaryContainer) return;
 
       const cart = getCart();
 
-      // Check for empty cart
       if (cart.length === 0) {
-        activeGrid.classList.add('hidden');
+        hideEl(activeGrid);
         emptyState.classList.remove('hidden');
-        emptyState.classList.add('flex');
+        emptyState.classList.add('block');
         return;
       }
 
-      activeGrid.classList.remove('hidden');
       emptyState.classList.add('hidden');
-      emptyState.classList.remove('flex');
+      showEl(activeGrid);
+      activeGrid.classList.add('flex-col');
 
-      // Render items
+      // Only attach form listeners once
+      if (!activeGrid.dataset.formReady) {
+        activeGrid.dataset.formReady = '1';
+        setupCheckoutForm();
+      }
+
       summaryContainer.innerHTML = cart.map(item => `
         <div class="flex items-center justify-between py-2 text-xs">
           <div class="flex items-center gap-3">
@@ -322,100 +285,84 @@
             </div>
             <div>
               <span class="font-bold text-textlight line-clamp-1">${item.name}</span>
-              <span class="text-[10px] text-muted">Qty: ${item.quantity}</span>
+              <span class="text-[10px] text-muted block">Qty: ${item.quantity}</span>
             </div>
           </div>
-          <span class="font-semibold text-highlight">$${(item.price * item.quantity).toFixed(2)}</span>
+          <span class="font-semibold text-highlight ml-4">$${(item.price * item.quantity).toFixed(2)}</span>
         </div>
       `).join('');
 
-      // Render totals
       const { subtotal, shipping, total } = getCartTotal();
       document.getElementById('summary-subtotal').textContent = `$${subtotal.toFixed(2)}`;
-      document.getElementById('summary-shipping').textContent = shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`;
+
+      const shippingEl = document.getElementById('summary-shipping');
+      shippingEl.textContent = shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`;
+      shippingEl.className   = shipping === 0 ? 'font-bold text-highlight' : 'font-semibold text-textlight';
+
       document.getElementById('summary-total').textContent = `$${total.toFixed(2)}`;
     }
 
-    // Set up validation formatters and submission handler
     function setupCheckoutForm() {
-      const form = document.getElementById('checkout-form');
-      if (!form) return;
+      const form     = document.getElementById('checkout-form');
+      const cardNum  = document.getElementById('cardnumber');
+      const cardExp  = document.getElementById('cardexpiry');
+      const cardCvv  = document.getElementById('cardcvv');
 
-      const cardNum = document.getElementById('cardnumber');
-      const cardExp = document.getElementById('cardexpiry');
-      const cardCvv = document.getElementById('cardcvv');
-      
-      // Auto-format card number as XXXX XXXX XXXX XXXX
-      cardNum.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-        let matches = value.match(/\d{4,16}/g);
-        let match = matches && matches[0] || '';
-        let parts = [];
-        for (let i = 0, len = match.length; i < len; i += 4) {
-          parts.push(match.substring(i, i + 4));
-        }
-        e.target.value = parts.length > 0 ? parts.join(' ') : value;
+      // Card number: auto-format XXXX XXXX XXXX XXXX
+      cardNum.addEventListener('input', e => {
+        const digits = e.target.value.replace(/\D/g, '').slice(0, 16);
+        e.target.value = digits.match(/.{1,4}/g)?.join(' ') || digits;
       });
 
-      // Auto-format expiry as MM/YY
-      cardExp.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 2) {
-          e.target.value = value.substring(0, 2) + '/' + value.substring(2, 4);
+      // Expiry: auto-format MM/YY, handle backspace correctly
+      cardExp.addEventListener('input', e => {
+        const isDeleting = e.inputType === 'deleteContentBackward';
+        let digits = e.target.value.replace(/\D/g, '');
+        if (digits.length > 4) digits = digits.slice(0, 4);
+        if (!isDeleting && digits.length > 2) {
+          e.target.value = digits.slice(0, 2) + '/' + digits.slice(2);
         } else {
-          e.target.value = value;
+          e.target.value = digits.length <= 2 ? digits : e.target.value;
         }
       });
 
-      // Format CVV code (numbers only)
-      cardCvv.addEventListener('input', (e) => {
-        e.target.value = e.target.value.replace(/\D/g, '');
+      // CVV: digits only
+      cardCvv.addEventListener('input', e => {
+        e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
       });
 
-      // Setup blur validation on all inputs and selects
+      // Blur validation + live error clearing
       const fields = form.querySelectorAll('input, select');
       fields.forEach(field => {
-        field.addEventListener('blur', () => {
-          validateField(field);
-        });
+        field.addEventListener('blur', () => validateField(field));
+        // Re-validate (not silent) so errors clear as user fixes them
         field.addEventListener('input', () => {
-          if (field.classList.contains('border-red-500')) {
-            validateField(field, true); // clear errors silently
-          }
+          if (field.classList.contains('border-red-500')) validateField(field);
+        });
+        field.addEventListener('change', () => {
+          if (field.classList.contains('border-red-500')) validateField(field);
         });
       });
 
-      // Form submission
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', e => {
         e.preventDefault();
-        
-        let isFormValid = true;
-        fields.forEach(field => {
-          const isValid = validateField(field);
-          if (!isValid) {
-            isFormValid = false;
-          }
-        });
+        let valid = true;
+        fields.forEach(f => { if (!validateField(f)) valid = false; });
 
-        if (isFormValid) {
-          // Clear cart
+        if (valid) {
           localStorage.removeItem('supply_cart');
           updateNavBadge();
+          form.reset();
 
-          // Generate random order ID
           const orderNum = 'SP-' + Math.floor(100000 + Math.random() * 900000);
-          
-          // Show success state
-          document.getElementById('checkout-active-grid').classList.add('hidden');
+          hideEl(document.getElementById('checkout-active-grid'));
           document.getElementById('success-order-id').textContent = '#' + orderNum;
-          document.getElementById('checkout-success-state').classList.remove('hidden');
-          document.getElementById('checkout-success-state').classList.add('flex');
-          
+          const successEl = document.getElementById('checkout-success-state');
+          successEl.classList.remove('hidden');
+          successEl.classList.add('block');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          showToast('Please correct the validation errors in your form fields.');
-          
-          // Scroll to the first invalid field
+          showToast('Please fix the errors highlighted in the form.');
           const firstInvalid = form.querySelector('.border-red-500');
           if (firstInvalid) {
             firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -425,121 +372,61 @@
       });
     }
 
-    // Inline field validation logic
-    function validateField(field, silent = false) {
+    function validateField(field) {
       const value = field.value.trim();
-      const id = field.id;
+      const id    = field.id;
       let isValid = true;
       let errorMsg = '';
 
-      switch(id) {
+      switch (id) {
         case 'fullname':
-          if (value.length < 3) {
-            isValid = false;
-            errorMsg = 'Full name must be at least 3 characters.';
-          }
-          break;
+          if (value.length < 3) { isValid = false; errorMsg = 'Full name must be at least 3 characters.'; } break;
         case 'email':
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailRegex.test(value)) {
-            isValid = false;
-            errorMsg = 'Please enter a valid email address.';
-          }
-          break;
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) { isValid = false; errorMsg = 'Please enter a valid email address.'; } break;
         case 'phone':
-          const phoneRegex = /^[0-9\-\+\(\)\s]{7,18}$/;
-          if (!phoneRegex.test(value)) {
-            isValid = false;
-            errorMsg = 'Please enter a valid phone number (min 7 digits).';
-          }
-          break;
+          if (!/^[0-9\-\+\(\)\s]{7,18}$/.test(value)) { isValid = false; errorMsg = 'Please enter a valid phone number.'; } break;
         case 'address':
-          if (value.length < 5) {
-            isValid = false;
-            errorMsg = 'Address must be at least 5 characters.';
-          }
-          break;
+          if (value.length < 5) { isValid = false; errorMsg = 'Address must be at least 5 characters.'; } break;
         case 'city':
-          if (value.length < 2) {
-            isValid = false;
-            errorMsg = 'City must be at least 2 characters.';
-          }
-          break;
+          if (value.length < 2) { isValid = false; errorMsg = 'City is required.'; } break;
         case 'state':
-          if (value.length < 2) {
-            isValid = false;
-            errorMsg = 'State is required (min 2 characters).';
-          }
-          break;
+          if (value.length < 2) { isValid = false; errorMsg = 'State is required.'; } break;
         case 'zip':
-          const zipRegex = /^[A-Za-z0-9\s-]{4,10}$/;
-          if (!zipRegex.test(value)) {
-            isValid = false;
-            errorMsg = 'ZIP/Postal code is invalid (min 4 characters).';
-          }
-          break;
+          if (!/^[A-Za-z0-9\s-]{4,10}$/.test(value)) { isValid = false; errorMsg = 'Please enter a valid ZIP/postal code.'; } break;
         case 'country':
-          if (!value) {
-            isValid = false;
-            errorMsg = 'Please select a country.';
-          }
-          break;
-        case 'cardnumber':
-          const rawCard = value.replace(/\s+/g, '');
-          if (rawCard.length !== 16 || isNaN(rawCard)) {
-            isValid = false;
-            errorMsg = 'Card number must be exactly 16 digits.';
-          }
-          break;
-        case 'cardexpiry':
-          const expiryRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
-          if (!expiryRegex.test(value)) {
-            isValid = false;
-            errorMsg = 'Expiry must be in MM/YY format.';
+          if (!value) { isValid = false; errorMsg = 'Please select a country.'; } break;
+        case 'cardnumber': {
+          const digits = value.replace(/\s/g, '');
+          if (!/^\d{16}$/.test(digits)) { isValid = false; errorMsg = 'Card number must be exactly 16 digits.'; } break;
+        }
+        case 'cardexpiry': {
+          if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(value)) {
+            isValid = false; errorMsg = 'Expiry must be in MM/YY format.';
           } else {
-            // Check if card is expired
-            const parts = value.split('/');
-            const month = parseInt(parts[0]);
-            const year = parseInt('20' + parts[1]);
-            const expiryDate = new Date(year, month - 1, 1);
-            const now = new Date();
-            // set to first of current month
-            const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-            if (expiryDate < currentMonthStart) {
-              isValid = false;
-              errorMsg = 'This card is already expired.';
+            const [mm, yy] = value.split('/');
+            const expiry   = new Date(2000 + parseInt(yy), parseInt(mm) - 1, 1);
+            const now      = new Date();
+            if (expiry < new Date(now.getFullYear(), now.getMonth(), 1)) {
+              isValid = false; errorMsg = 'This card has expired.';
             }
           }
           break;
+        }
         case 'cardcvv':
-          if (value.length < 3 || value.length > 4 || isNaN(value)) {
-            isValid = false;
-            errorMsg = 'CVV must be 3 or 4 digits.';
-          }
-          break;
+          if (!/^\d{3,4}$/.test(value)) { isValid = false; errorMsg = 'CVV must be 3 or 4 digits.'; } break;
         case 'cardname':
-          if (value.length < 3) {
-            isValid = false;
-            errorMsg = 'Name on card must be at least 3 characters.';
-          }
-          break;
+          if (value.length < 3) { isValid = false; errorMsg = 'Name on card must be at least 3 characters.'; } break;
       }
 
-      const errorContainer = document.getElementById(`${id}-error`);
-      if (!isValid && !silent) {
+      const errorEl = document.getElementById(`${id}-error`);
+      if (!isValid) {
         field.classList.add('border-red-500');
-        field.classList.remove('border-accent/15', 'focus:border-accent');
-        if (errorContainer) {
-          errorContainer.textContent = errorMsg;
-          errorContainer.classList.remove('hidden');
-        }
+        field.classList.remove('border-accent/15');
+        if (errorEl) { errorEl.textContent = errorMsg; errorEl.classList.remove('hidden'); }
       } else {
         field.classList.remove('border-red-500');
         field.classList.add('border-accent/15');
-        if (errorContainer) {
-          errorContainer.textContent = '';
-          errorContainer.classList.add('hidden');
-        }
+        if (errorEl) { errorEl.textContent = ''; errorEl.classList.add('hidden'); }
       }
 
       return isValid;

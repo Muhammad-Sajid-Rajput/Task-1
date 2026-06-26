@@ -49,7 +49,7 @@ const products = [
     name: "Gray Skateboard Shoes",
     price: 49.99,
     rating: 4.2,
-    category: "Apparel",
+    category: "Footwear",
     image: "products/athletic-skateboard-shoes-gray.jpg",
     description: "Durable suede skate shoes with high-traction vulcanized rubber soles."
   },
@@ -184,7 +184,7 @@ const products = [
     name: "Gray Knit Sneakers",
     price: 59.99,
     rating: 4.5,
-    category: "Apparel",
+    category: "Footwear",
     image: "products/knit-athletic-sneakers-gray.jpg",
     description: "Lightweight, breathable knit shoes for workouts and walking."
   },
@@ -211,7 +211,7 @@ const products = [
     name: "Men's White Sneakers",
     price: 64.99,
     rating: 4.4,
-    category: "Apparel",
+    category: "Footwear",
     image: "products/men-athletic-shoes-white.jpg",
     description: "Comfortable athletic shoes with superior arch support."
   },
@@ -220,7 +220,7 @@ const products = [
     name: "Men's Flat Sneakers",
     price: 54.99,
     rating: 4.3,
-    category: "Apparel",
+    category: "Footwear",
     image: "products/men-brown-flat-sneakers.jpg",
     description: "Minimalist casual sneakers with a durable rubber sole."
   },
@@ -319,7 +319,7 @@ const products = [
     name: "Knit Ballet Flats",
     price: 34.99,
     rating: 4.4,
-    category: "Apparel",
+    category: "Footwear",
     image: "products/women-knit-ballet-flat-white.jpg",
     description: "Flexible and lightweight slip-on flats made of woven fabric."
   },
@@ -355,7 +355,7 @@ const products = [
     name: "Sandal Block Heels",
     price: 49.99,
     rating: 4.3,
-    category: "Apparel",
+    category: "Footwear",
     image: "products/women-sandal-heels-white-pink.jpg",
     description: "Stylish open-toe block heel sandals with ankle strap."
   },

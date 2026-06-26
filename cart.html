@@ -4,132 +4,99 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shopping Cart — SUPPLY</title>
-  <!-- Google Fonts: Sora + DM Serif Display -->
+  <meta name="description" content="Review your SUPPLY cart, update quantities, and proceed to checkout.">
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind config MUST load before the CDN script -->
+  <script src="tailwind.config.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Sora', 'sans-serif'],
-            serif: ['DM Serif Display', 'serif'],
-          },
-          colors: {
-            darkbg: '#0a0a0f',
-            cardbg: '#12121e',
-            accent: '#7c3aed',
-            highlight: '#a3e635',
-            textlight: '#f8fafc',
-            muted: '#94a3b8'
-          }
-        }
-      }
-    }
-  </script>
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-darkbg text-textlight antialiased flex flex-col min-h-screen">
 
-  <!-- Sticky Navbar -->
+  <!-- ── Navbar ── -->
   <header class="sticky top-0 z-50 bg-darkbg/80 backdrop-blur-md border-b border-accent/10">
-    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between" aria-label="Main navigation">
       <a href="index.html" class="flex items-center gap-3 group">
-        <span class="text-2xl font-bold tracking-wider text-textlight">
-          SUPPLY <span class="text-highlight">✦</span>
-        </span>
-        <span class="hidden lg:inline-block h-4 w-[1px] bg-accent/30"></span>
-        <span class="hidden lg:inline-block text-[9px] uppercase tracking-[0.25em] text-muted group-hover:text-highlight transition-colors mt-0.5">
-          Curated Premium Gear.
-        </span>
+        <span class="text-2xl font-bold tracking-wider text-textlight">SUPPLY <span class="text-highlight" aria-hidden="true">✦</span></span>
+        <span class="hidden lg:inline-block h-4 w-px bg-accent/30" aria-hidden="true"></span>
+        <span class="hidden lg:inline-block text-[9px] uppercase tracking-[0.25em] text-muted group-hover:text-highlight transition-colors mt-0.5">Curated Premium Gear.</span>
       </a>
-      
-      <!-- Nav Links -->
+
       <div class="hidden md:flex items-center gap-8 text-sm font-medium text-muted">
         <a href="index.html" class="hover:text-textlight transition-colors">Home</a>
         <a href="shop.html" class="hover:text-textlight transition-colors">Shop</a>
-        <a href="cart.html" class="text-highlight transition-colors flex items-center gap-2">
+        <a href="cart.html" class="text-highlight flex items-center gap-2" aria-current="page">
           Cart
-          <span id="cart-badge-count" class="hidden bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full items-center justify-center border border-accent/20">0</span>
+          <span id="cart-badge-count" class="hidden bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full items-center justify-center border border-accent/20" aria-label="items in cart">0</span>
         </a>
       </div>
 
-      <!-- Action Button -->
       <div class="flex items-center gap-4">
-        <a href="shop.html" class="nexus-btn-primary hidden md:inline-flex text-xs">
-          Shop Now
-        </a>
-        <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" class="md:hidden text-textlight hover:text-highlight focus:outline-none" aria-label="Toggle menu">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        <a href="shop.html" class="nexus-btn-primary hidden md:inline-flex text-xs">Shop Now</a>
+        <button id="mobile-menu-btn" class="md:hidden text-textlight hover:text-highlight focus:outline-none" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
       </div>
     </nav>
-    
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-cardbg border-b border-accent/15 py-4 px-6 flex flex-col gap-4 text-sm font-medium">
+
+    <div id="mobile-menu" class="hidden md:hidden bg-cardbg border-b border-accent/15 py-4 px-6 flex-col gap-4 text-sm font-medium" role="navigation" aria-label="Mobile navigation">
       <a href="index.html" class="hover:text-textlight transition-colors">Home</a>
       <a href="shop.html" class="hover:text-textlight transition-colors">Shop</a>
-      <a href="cart.html" class="text-highlight transition-colors flex items-center justify-between">
+      <a href="cart.html" class="text-highlight flex items-center justify-between" aria-current="page">
         <span>Cart</span>
-        <span id="cart-badge-count-mobile" class="bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border border-accent/20">0</span>
+        <span id="cart-badge-count-mobile" class="hidden bg-accent text-textlight text-xs font-bold w-5 h-5 rounded-full items-center justify-center border border-accent/20" aria-label="items in cart">0</span>
       </a>
-      <a href="shop.html" class="nexus-btn-primary text-center text-xs py-2.5">
-        Shop Now
-      </a>
+      <a href="shop.html" class="nexus-btn-primary text-center text-xs py-2.5">Shop Now</a>
     </div>
   </header>
 
-  <!-- Main Content Container -->
+  <!-- ── Main ── -->
   <main class="flex-grow max-w-7xl mx-auto px-6 py-12 w-full">
-    
-    <!-- Title -->
+
     <div class="border-b border-accent/10 pb-6 mb-8 text-left">
       <h1 class="text-3xl font-extrabold tracking-tight">Shopping Cart</h1>
     </div>
 
-    <!-- Empty Cart View -->
-    <div id="empty-cart-state" class="hidden flex-col items-center justify-center py-20 px-6 text-center border border-dashed border-accent/20 rounded-2xl bg-cardbg/10 max-w-md mx-auto gap-4">
-      <div class="text-accent text-5xl">✦</div>
-      <h2 class="text-xl font-bold text-textlight">Your Cart is Empty</h2>
-      <p class="text-xs text-muted max-w-xs">Looks like you haven't added any quantum gear to your loadout yet.</p>
-      <a href="shop.html" class="nexus-btn-primary py-2.5 px-8 text-xs mt-2">
-        Start Shopping
-      </a>
+    <!-- Empty State -->
+    <div id="empty-cart-state" class="hidden py-20 px-6 text-center border border-dashed border-accent/20 rounded-2xl bg-cardbg/10 max-w-md mx-auto" role="status">
+      <div class="text-accent text-5xl mb-4" aria-hidden="true">✦</div>
+      <h2 class="text-xl font-bold text-textlight mb-2">Your Cart is Empty</h2>
+      <p class="text-xs text-muted max-w-xs mx-auto mb-6">Looks like you haven't added anything yet.</p>
+      <a href="shop.html" class="nexus-btn-primary py-2.5 px-8 text-xs">Start Shopping</a>
     </div>
 
-    <!-- Active Cart View (80% Left, 20% Right Column Layout on desktop) -->
-    <div id="active-cart-grid" class="hidden flex flex-col lg:flex-row gap-8 items-start">
-      
-      <!-- Left Column: Cart Items List (80% Width) -->
-      <div class="lg:w-4/5 w-full flex flex-col gap-4">
+    <!-- Active Cart — 65/35 layout -->
+    <div id="active-cart-grid" class="hidden lg:flex-row gap-8 items-start">
+
+      <!-- Left: Items (65%) -->
+      <div class="lg:w-[65%] w-full flex flex-col gap-4">
         <div class="bg-cardbg/20 border border-accent/10 rounded-2xl overflow-hidden">
-          <!-- Table Header -->
           <div class="hidden sm:grid grid-cols-12 gap-4 px-6 py-4 border-b border-accent/10 text-xs font-bold text-muted uppercase tracking-wider">
             <div class="col-span-6">Item</div>
             <div class="col-span-2 text-center">Price</div>
             <div class="col-span-2 text-center">Quantity</div>
             <div class="col-span-2 text-right">Subtotal</div>
           </div>
+          <div id="cart-items-container" class="divide-y divide-accent/5"></div>
+        </div>
 
-          <!-- Items Container -->
-          <div id="cart-items-container" class="divide-y divide-accent/5">
-            <!-- Renders dynamically -->
-          </div>
+        <!-- Continue Shopping -->
+        <div class="text-left">
+          <a href="shop.html" class="text-sm text-muted hover:text-textlight transition-colors flex items-center gap-2 w-fit">
+            <span aria-hidden="true">&larr;</span> Continue Shopping
+          </a>
         </div>
       </div>
-      
-      <!-- Right Column: Order Summary (20% Width) -->
-      <div class="lg:w-1/5 w-full">
+
+      <!-- Right: Summary (35%) -->
+      <div class="lg:w-[35%] w-full">
         <div class="bg-cardbg border border-accent/10 rounded-2xl p-6 flex flex-col gap-6">
-          <h2 class="text-base font-bold text-textlight border-b border-accent/10 pb-4 text-left">Summary</h2>
-          
+          <h2 class="text-base font-bold text-textlight border-b border-accent/10 pb-4">Order Summary</h2>
           <div class="flex flex-col gap-3 text-sm">
             <div class="flex items-center justify-between">
               <span class="text-muted">Subtotal</span>
@@ -139,72 +106,63 @@
               <span class="text-muted">Shipping</span>
               <span id="summary-shipping" class="font-semibold text-textlight">$0.00</span>
             </div>
-            <p id="shipping-hint" class="text-[10px] text-left text-highlight mt-1 hidden">Free shipping activated!</p>
+            <p id="shipping-hint" class="text-[10px] text-left text-highlight hidden">
+              <span aria-hidden="true">✦</span> Free shipping applied!
+            </p>
             <div class="border-t border-accent/10 pt-4 mt-2 flex items-center justify-between">
               <span class="font-bold text-textlight">Total</span>
               <span id="summary-total" class="font-bold text-highlight text-lg">$0.00</span>
             </div>
           </div>
-
           <a href="checkout.html" id="checkout-btn" class="nexus-btn-primary py-3 text-xs w-full text-center">
             Proceed to Checkout
           </a>
         </div>
       </div>
-
     </div>
 
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-slate-950 border-t border-accent/10 py-12 text-center text-xs text-muted">
+  <!-- ── Footer ── -->
+  <footer class="bg-slate-950 border-t border-accent/10 py-12 text-xs text-muted">
     <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-      <a href="index.html" class="text-lg font-bold tracking-wider text-textlight hover:text-highlight transition-colors">
-        SUPPLY <span class="text-highlight">✦</span>
-      </a>
-      <p>&copy; 2026 SUPPLY Corporation. All rights reserved. Curated Premium Gear.</p>
-      <div class="flex gap-4">
+      <a href="index.html" class="text-lg font-bold tracking-wider text-textlight hover:text-highlight transition-colors">SUPPLY <span class="text-highlight" aria-hidden="true">✦</span></a>
+      <p>&copy; 2026 SUPPLY. All rights reserved.</p>
+      <nav class="flex gap-4" aria-label="Footer navigation">
         <a href="shop.html" class="hover:text-textlight transition-colors">Catalog</a>
-        <a href="cart.html" class="hover:text-textlight transition-colors">Cart Page</a>
-      </div>
+        <a href="cart.html" class="hover:text-textlight transition-colors">Cart</a>
+      </nav>
     </div>
   </footer>
 
-  <!-- Scripts -->
   <script src="products.js"></script>
   <script src="script.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      renderCartPage();
-    });
+    document.addEventListener('DOMContentLoaded', renderCartPage);
 
-    // Cart page specialized renderer
     function renderCartPage() {
       const itemsContainer = document.getElementById('cart-items-container');
-      const emptyState = document.getElementById('empty-cart-state');
-      const activeGrid = document.getElementById('active-cart-grid');
-      const checkoutBtn = document.getElementById('checkout-btn');
-
-      if (!itemsContainer || !emptyState || !activeGrid) return;
+      const emptyState     = document.getElementById('empty-cart-state');
+      const activeGrid     = document.getElementById('active-cart-grid');
+      const checkoutBtn    = document.getElementById('checkout-btn');
+      if (!itemsContainer) return;
 
       const cart = getCart();
 
-      // Show/Hide views based on cart empty state
       if (cart.length === 0) {
-        activeGrid.classList.add('hidden');
+        hideEl(activeGrid);
         emptyState.classList.remove('hidden');
-        emptyState.classList.add('flex');
         return;
       }
 
-      activeGrid.classList.remove('hidden');
       emptyState.classList.add('hidden');
-      emptyState.classList.remove('flex');
+      activeGrid.classList.remove('hidden');
+      activeGrid.classList.add('flex', 'flex-col', 'lg:flex-row');
 
-      // Render items list
-      itemsContainer.innerHTML = cart.map(item => `
+      itemsContainer.innerHTML = cart.map(item => {
+        const isMinQty = item.quantity <= 1;
+        return `
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 px-6 py-6 items-center text-left">
-          <!-- Thumbnail and Details -->
           <div class="col-span-12 sm:col-span-6 flex items-center gap-4">
             <a href="product.html?id=${item.id}" class="w-16 h-16 rounded-xl overflow-hidden bg-white border border-accent/10 flex-shrink-0">
               <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover" />
@@ -212,66 +170,77 @@
             <div>
               <span class="text-[10px] text-highlight uppercase font-bold tracking-wider">${item.category}</span>
               <a href="product.html?id=${item.id}" class="block text-sm font-bold text-textlight hover:text-accent transition-colors line-clamp-1">${item.name}</a>
-              <button onclick="removeFromCart(${item.id})" class="text-xs text-red-400 hover:text-red-300 font-medium mt-1 flex items-center gap-1">
-                Remove
-              </button>
+              <button
+                onclick="removeFromCart(${item.id})"
+                class="text-xs text-red-400 hover:text-red-300 font-medium mt-1"
+                aria-label="Remove ${item.name} from cart"
+              >Remove</button>
             </div>
           </div>
-          
-          <!-- Unit Price -->
+
           <div class="col-span-12 sm:col-span-2 text-left sm:text-center flex justify-between sm:justify-center items-center border-t border-accent/5 pt-2 sm:pt-0 sm:border-none">
             <span class="sm:hidden text-xs text-muted">Unit Price</span>
             <span class="text-sm font-semibold">$${item.price.toFixed(2)}</span>
           </div>
 
-          <!-- Quantity selector -->
           <div class="col-span-12 sm:col-span-2 flex justify-between sm:justify-center items-center pt-2 sm:pt-0">
             <span class="sm:hidden text-xs text-muted">Quantity</span>
-            <div class="flex items-center bg-cardbg border border-accent/10 rounded-full h-8 px-1">
-              <button onclick="updateQty(${item.id}, ${item.quantity - 1})" class="w-6 h-6 rounded-full flex items-center justify-center text-muted hover:text-textlight hover:bg-accent/15 transition-colors font-bold">-</button>
-              <input 
-                type="number" 
-                value="${item.quantity}" 
-                min="1" 
-                onchange="updateQty(${item.id}, parseInt(this.value) || 1)"
-                class="w-8 bg-transparent text-center text-xs font-bold border-none outline-none focus:ring-0 text-textlight appearance-none" 
+            <div class="flex items-center bg-cardbg border border-accent/10 rounded-full h-8 px-1" role="group" aria-label="Quantity for ${item.name}">
+              <button
+                onclick="updateQty(${item.id}, ${item.quantity - 1})"
+                class="w-6 h-6 rounded-full flex items-center justify-center transition-colors font-bold ${isMinQty ? 'text-slate-600 cursor-not-allowed' : 'text-muted hover:text-textlight hover:bg-accent/15'}"
+                aria-label="Decrease quantity"
+                ${isMinQty ? 'disabled aria-disabled="true"' : ''}
+              >-</button>
+              <input
+                type="number"
+                value="${item.quantity}"
+                min="1"
+                max="99"
+                onchange="updateQty(${item.id}, Math.min(Math.max(parseInt(this.value)||1,1),99))"
+                class="w-8 bg-transparent text-center text-xs font-bold border-none outline-none focus:ring-0 text-textlight appearance-none"
+                aria-label="Quantity"
               />
-              <button onclick="updateQty(${item.id}, ${item.quantity + 1})" class="w-6 h-6 rounded-full flex items-center justify-center text-muted hover:text-textlight hover:bg-accent/15 transition-colors font-bold">+</button>
+              <button
+                onclick="updateQty(${item.id}, ${Math.min(item.quantity + 1, 99)})"
+                class="w-6 h-6 rounded-full flex items-center justify-center text-muted hover:text-textlight hover:bg-accent/15 transition-colors font-bold ${item.quantity >= 99 ? 'opacity-40 cursor-not-allowed' : ''}"
+                aria-label="Increase quantity"
+                ${item.quantity >= 99 ? 'disabled aria-disabled="true"' : ''}
+              >+</button>
             </div>
           </div>
 
-          <!-- Subtotal -->
           <div class="col-span-12 sm:col-span-2 text-left sm:text-right flex justify-between sm:justify-end items-center pt-2 sm:pt-0">
             <span class="sm:hidden text-xs text-muted">Subtotal</span>
             <span class="text-sm font-bold text-highlight">$${(item.price * item.quantity).toFixed(2)}</span>
           </div>
-        </div>
-      `).join('');
+        </div>`;
+      }).join('');
 
-      // Render summary numbers
+      // Summary
       const { subtotal, shipping, total } = getCartTotal();
       document.getElementById('summary-subtotal').textContent = `$${subtotal.toFixed(2)}`;
-      
-      const shippingEl = document.getElementById('summary-shipping');
+
+      const shippingEl   = document.getElementById('summary-shipping');
       const shippingHint = document.getElementById('shipping-hint');
-      
       if (shipping === 0) {
-        shippingEl.textContent = "FREE";
-        shippingEl.className = "font-bold text-highlight";
+        shippingEl.textContent  = 'FREE';
+        shippingEl.className    = 'font-bold text-highlight';
         shippingHint.classList.remove('hidden');
       } else {
-        shippingEl.textContent = `$${shipping.toFixed(2)}`;
-        shippingEl.className = "font-semibold text-textlight";
+        shippingEl.textContent  = `$${shipping.toFixed(2)}`;
+        shippingEl.className    = 'font-semibold text-textlight';
         shippingHint.classList.add('hidden');
       }
 
       document.getElementById('summary-total').textContent = `$${total.toFixed(2)}`;
 
-      // Disable checkout button if total is 0
       if (total <= 0) {
         checkoutBtn.classList.add('opacity-50', 'pointer-events-none');
+        checkoutBtn.setAttribute('aria-disabled', 'true');
       } else {
         checkoutBtn.classList.remove('opacity-50', 'pointer-events-none');
+        checkoutBtn.removeAttribute('aria-disabled');
       }
     }
   </script>
